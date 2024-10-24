@@ -1,0 +1,19 @@
+필요코딩모임: https://open.kakao.com/o/g2GUEMSg
+
+
+pip install fastapi uvicorn
+
+cd C:\Users\Administrator\Desktop\Files\gpters_솔론봇\본강의-url
+uvicorn main:app --host 0.0.0.0 --reload
+
+
+
+main: 메아리봇
+main1: hello world
+main2: url 텍스트 그대로
+main3: langchain 도입
+main4: 프롬프트(정규식)까지 완료
+main5: 유튜브포함
+
+
+bot: 메신저봇R세팅
