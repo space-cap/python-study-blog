@@ -3,6 +3,10 @@ from fastapi import FastAPI, Request
 
 app = FastAPI()
 
+@app.get("/")
+async def read_root():
+    return {"message": "Hello, FastAPI!"}
+
 @app.post("/reply")
 async def reply_message(request: Request):
     data = await request.json()  # JSON 데이터를 수신 및 파싱
