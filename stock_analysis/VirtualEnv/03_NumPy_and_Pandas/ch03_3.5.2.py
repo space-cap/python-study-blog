@@ -16,20 +16,16 @@ max_dd = drawdown.rolling(window, min_periods=1).min()
 
 import matplotlib.pyplot as plt
 
-plt.figure(figsize=(9, 7))
+# Figure와 두 개의 subplot 생성
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 7))
 
-# 첫 번째 subplot
-ax1 = plt.subplot(211)
+# 첫 번째 subplot: kospi의 종가를 표시
 kospi['Close'].plot(ax=ax1, label='KOSPI', title='KOSPI MDD', grid=True, legend=True)
 
-# 두 번째 subplot 생성 전에 명시적으로 제거
-ax1.remove()
-
-# 새로운 subplot 추가
-ax2 = plt.subplot(212)
+# 두 번째 subplot: drawdown과 max_dd를 표시
 drawdown.plot(ax=ax2, c='blue', label='KOSPI DD', grid=True, legend=True)
 max_dd.plot(ax=ax2, c='red', label='KOSPI MDD', grid=True, legend=True)
 
+# 그래프 보여주기
 plt.show()
-
 
