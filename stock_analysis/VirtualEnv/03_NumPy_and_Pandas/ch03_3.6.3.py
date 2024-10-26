@@ -13,7 +13,8 @@ dow = yf.download("^DJI", start_date, end_date)
 kospi = yf.download("^KS11", start_date, end_date)
 
 
-df = pd.DataFrame({'DOW': dow['Close'], 'KOSPI': kospi['Close']})
+# 인덱스를 맞춘 후 DataFrame 생성
+df = pd.concat([dow['Close'], kospi['Close']], axis=1, keys=['DOW', 'KOSPI'])
 df = df.fillna(method='bfill')
 df = df.fillna(method='ffill')
 
