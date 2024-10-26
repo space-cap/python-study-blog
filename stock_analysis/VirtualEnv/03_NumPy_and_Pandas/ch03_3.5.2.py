@@ -17,10 +17,19 @@ max_dd = drawdown.rolling(window, min_periods=1).min()
 import matplotlib.pyplot as plt
 
 plt.figure(figsize=(9, 7))
-plt.subplot(211)
-kospi['Close'].plot(label='KOSPI', title='KOSPI MDD', grid=True, legend=True)
-plt.subplot(212)
-drawdown.plot(c='blue', label='KOSPI DD', grid=True, legend=True)
-max_dd.plot(c='red', label='KOSPI MDD', grid=True, legend=True)
+
+# 첫 번째 subplot
+ax1 = plt.subplot(211)
+kospi['Close'].plot(ax=ax1, label='KOSPI', title='KOSPI MDD', grid=True, legend=True)
+
+# 두 번째 subplot 생성 전에 명시적으로 제거
+ax1.remove()
+
+# 새로운 subplot 추가
+ax2 = plt.subplot(212)
+drawdown.plot(ax=ax2, c='blue', label='KOSPI DD', grid=True, legend=True)
+max_dd.plot(ax=ax2, c='red', label='KOSPI MDD', grid=True, legend=True)
+
 plt.show()
+
 
