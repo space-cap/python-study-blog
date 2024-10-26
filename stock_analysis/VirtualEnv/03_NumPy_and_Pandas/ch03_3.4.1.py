@@ -1,8 +1,10 @@
+from datetime import datetime 
 from pandas_datareader import data as pdr
 import yfinance as yf
-yf.pdr_override()
 
-sec = pdr.get_data_yahoo('005930.KS', start='2018-05-04')
-msft = pdr.get_data_yahoo('MSFT', start='2018-05-04')
+start_date = datetime(2021,1,1) 
+end_date = datetime(2021,12,31)
 
-print(sec.head(10))
+# yf.download을 사용하여 데이터를 불러오기
+data = yf.download("AAPL", start="2022-01-01", end="2022-12-31")
+print(data)
