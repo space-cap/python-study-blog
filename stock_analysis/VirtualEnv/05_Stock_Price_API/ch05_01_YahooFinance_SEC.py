@@ -15,3 +15,12 @@ df = yf.download("005930.KS", start_date, end_date)
 # 실제 열 이름 확인
 print("Columns in DataFrame:", df.columns)
 
+df = df.rename(columns={('Adj Close', '005930.KS'):'Adj Close', 
+                        ('Close', '005930.KS'):'Open', 
+                        ('High', '005930.KS'):'High', 
+                        ('Low', '005930.KS'):'Low', 
+                        ('Open', '005930.KS'):'Close', 
+                        ('Volume', '005930.KS'):'Volume'})
+
+
+print("Columns in DataFrame:", df.columns)
