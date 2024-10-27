@@ -38,8 +38,6 @@ for page in range(1, int(last_page) + 1):
 # 리스트에 있는 데이터프레임을 하나로 합치기
 df = pd.concat(df_list, ignore_index=True)
 
-# print(df)
-
 # NaN 값 제거
 df = df.dropna()  # NaN이 포함된 행을 제거합니다. # 값이 빠진 행을 제거한다.
 
@@ -52,15 +50,14 @@ df = df.sort_values(by='Date')
 df.index = pd.to_datetime(df.Date) # Date 칼럼을 DatetimeIndex 형으로 변경한 후 인덱스로 설정한다.
 df = df[['Open', 'High', 'Low', 'Close', 'Volume']] # Open, High, Low, Close, Volume 칼럼만 갖도록 데이터프레임 구조를 변경한다.
 
-mpf.plot(df, title='Celltrion candle chart', type='candle')
+print(df)
 
-mpf.plot(df, title='Celltrion ohlc chart', type='ohlc')
+# mpf.plot(df, title='Celltrion candle chart', type='candle')
+# mpf.plot(df, title='Celltrion ohlc chart', type='ohlc')
 
+# 이동평균선, 색 추가
 kwargs = dict(title='Celltrion customized chart', type='candle',
     mav=(2, 4, 6), volume=True, ylabel='ohlc candles')
 mc = mpf.make_marketcolors(up='r', down='b', inherit=True)
 s  = mpf.make_mpf_style(marketcolors=mc)
 mpf.plot(df, **kwargs, style=s)
-
-
-
