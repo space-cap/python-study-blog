@@ -7,7 +7,7 @@ import matplotlib.pylab as plt
 
 # KOSPI와 다우존스 지수화 비교
 # 날짜 설정
-start_date = datetime(2024,1,1) 
+start_date = datetime(2000,1,4) 
 end_date = datetime(2024,12,31)
 
 # yf.download을 사용하여 데이터를 불러오기
@@ -24,6 +24,23 @@ df = df.fillna(method='ffill')
 # NaN 값 제거
 df = df.dropna()
 
+# 열 이름 변경
+df.columns = ['X', 'Y']
+
 # 데이터 유형 및 결측치 확인
 print(df[['X', 'Y']].info())  # 결측치가 없고 float64 타입인지 확인
+
+# 선형 회귀 수행
+regr = stats.linregress(df['X'], df['Y'])
+regr_line = f'Y = {regr.slope:.2f} X + {regr.intercept:.2f}'
+
+# 그래프 생성
+plt.figure(figsize=(7, 7))
+plt.plot(df['X'], df['Y'], '.')
+plt.plot(df['X'], regr.slope * df['X'] + regr.intercept, 'r')
+plt.legend(['DOW x KOSPI', regr_line])
+plt.title(f'DOW x KOSPI (R = {regr.rvalue:.2f})')
+plt.xlabel('Dow Jones Industrial Average')
+plt.ylabel('KOSPI')
+plt.show()
 
