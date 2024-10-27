@@ -38,4 +38,17 @@ df = pd.concat(df_list, ignore_index=True)
 
 print(df)
 
+# 차트 출력을 위해 데이터프레임 가공하기
+df = df.dropna() # 값이 빠진 행을 제거한다.
+df = df.iloc[0:30]
+df = df.sort_values(by='날짜')
+
+
+
+
+
+
+
+
+
 
