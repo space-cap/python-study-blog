@@ -22,13 +22,19 @@ print(last_page)
 last_page = 2 # 테스트를 위해서 2로 수정
 
 # 4.4.4 전체 페이지 읽어오기
-df = pd.DataFrame()
+df_list = []  # 빈 리스트 생성
 sise_url = 'https://finance.naver.com/item/sise_day.nhn?code=068270'  
-for page in range(1, int(last_page)+1):
+for page in range(1, int(last_page) + 1):
     url = '{}&page={}'.format(sise_url, page)  
     html = requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text
-    df = df.append(pd.read_html(html, header=0)[0])
+    
+    # 페이지에서 데이터 읽어오기
+    page_df = pd.read_html(html, header=0)[0]
+    df_list.append(page_df)  # 데이터프레임을 리스트에 추가
     time.sleep(2)  # 2초 동안 멈춤
+
+# 리스트에 있는 데이터프레임을 하나로 합치기
+df = pd.concat(df_list, ignore_index=True)
 
 print(df)
 
