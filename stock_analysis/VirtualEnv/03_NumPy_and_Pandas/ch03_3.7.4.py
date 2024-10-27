@@ -19,7 +19,8 @@ df = pd.concat([dow['Close'], kospi['Close']], axis=1, keys=['DOW', 'KOSPI'])
 df = df.fillna(method='bfill')
 df = df.fillna(method='ffill')
 
-# 선형 회귀 수행
+# NaN 값을 제거한 후 선형 회귀 수행
+df = df.dropna()
 regr = stats.linregress(df['DOW'], df['KOSPI'])
 regr_line = f'Y = {regr.slope:2f} X + {regr.intercept:2f}'
 
