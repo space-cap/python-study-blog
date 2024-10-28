@@ -3,9 +3,11 @@ import pandas_datareader as pdr
 import yfinance as yf
 import matplotlib.pylab as plt
 import pymysql, calendar, time, json
+import requests
 from scipy import stats
 from datetime import datetime
 from sqlalchemy import create_engine
+from bs4 import BeautifulSoup
 
 class DBUpdater:  
     def __init__(self):
@@ -14,8 +16,8 @@ class DBUpdater:
             password='doolman', db='INVESTAR', charset='utf8')
         
         """생성자: MariaDB 연결 및 종목코드 딕셔너리 생성"""
-        db_url = 'mysql+pymysql://root:doolman@localhost/INVESTAR'
-        self.engine = create_engine(db_url, encoding='utf-8')
+        db_url = 'mysql+pymysql://root:doolman@localhost/INVESTAR?charset=utf8'
+        self.engine = create_engine(db_url)
 
         with self.conn.cursor() as curs:
             sql = """
@@ -86,6 +88,29 @@ class DBUpdater:
 
     def read_naver(self, code, company, pages_to_fetch):
         """네이버에서 주식 시세를 읽어서 데이터프레임으로 반환"""
+        try:
+            url = f"http://finance.naver.com/item/sise_day.nhn?code={code}"
+            html = requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text
+            bs = BeautifulSoup(html, 'lxml')
+            pgrr = bs.find('td', class_='pgRR')
+            print(pgrr.a['href'])
+            s = str(pgrr.a['href']).split('=')
+            last_page = s[-1]
+
+            print(last_page)
+            
+            df = pd.DataFrame()
+
+
+
+            return None
+        except Exception as e:
+            print('Exception occurred:', str(e))
+            return None
+
+        return None
+
+
 
     def replace_into_db(self, df, num, code, company):
         """네이버에서 읽어온 주식 시세를 DB에 REPLACE"""
@@ -96,5 +121,5 @@ class DBUpdater:
 
 if __name__ == '__main__':
     dbu = DBUpdater()
-    dbu.update_comp_info()
+    dbu.read_naver()
 
