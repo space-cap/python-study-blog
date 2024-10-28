@@ -19,7 +19,7 @@ pip install matplotlib
 pip install yfinance
 pip install pandas-datareader
 pip install pymysql
-
+pip install SQLAlchemy
 
 파이썬 3.8.10 32비트 설치
 https://www.python.org/downloads/release/python-3810/

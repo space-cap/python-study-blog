@@ -5,6 +5,7 @@ import matplotlib.pylab as plt
 import pymysql, calendar, time, json
 from scipy import stats
 from datetime import datetime
+from sqlalchemy import create_engine
 
 class DBUpdater:  
     def __init__(self):
@@ -12,6 +13,10 @@ class DBUpdater:
         self.conn = pymysql.connect(host='localhost', user='root',
             password='doolman', db='INVESTAR', charset='utf8')
         
+        """생성자: MariaDB 연결 및 종목코드 딕셔너리 생성"""
+        db_url = 'mysql+pymysql://root:doolman@localhost/INVESTAR'
+        self.engine = create_engine(db_url, encoding='utf-8')
+
         with self.conn.cursor() as curs:
             sql = """
             CREATE TABLE IF NOT EXISTS company_info (
@@ -54,7 +59,8 @@ class DBUpdater:
     def update_comp_info(self):
         """종목코드를 company_info 테이블에 업데이트 한 후 딕셔너리에 저장"""
         sql = "SELECT * FROM company_info"
-        df = pd.read_sql(sql, self.conn)
+        # df = pd.read_sql(sql, self.conn)
+        df = pd.read_sql(sql, self.engine) # SQLAlchemy 엔진
         for idx in range(len(df)):
             self.codes[df['code'].values[idx]] = df['company'].values[idx]
                     
