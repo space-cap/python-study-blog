@@ -16,3 +16,10 @@ pip install pandas
 pip install matplotlib
 pip install yfinance
 pip install pandas-datareader
+
+
+파이썬 3.8.10 32비트 설치
+https://www.python.org/downloads/release/python-3810/
+Windows installer (32-bit) 다운 받아서 설치
+
+
