@@ -90,10 +90,9 @@ class DBUpdater:
         """네이버에서 주식 시세를 읽어서 데이터프레임으로 반환"""
         try:
             url = f"http://finance.naver.com/item/sise_day.nhn?code={code}"
-            html = requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text
+            html = requests.get(url, verify=False, headers={'User-agent': 'Mozilla/5.0'}).text
             bs = BeautifulSoup(html, 'lxml')
             pgrr = bs.find('td', class_='pgRR')
-            print(pgrr.a['href'])
             s = str(pgrr.a['href']).split('=')
             last_page = s[-1]
 
@@ -121,5 +120,5 @@ class DBUpdater:
 
 if __name__ == '__main__':
     dbu = DBUpdater()
-    dbu.read_naver()
+    dbu.read_naver('068270', 'sel', 1)
 
