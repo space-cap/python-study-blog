@@ -11,6 +11,8 @@ pip install --upgrade yfinance pandas_datareader
 
 32bit scipy를 설치를 하고 싶으면
 32bit 가상화를 만들고 scipy 1.9.1 를 먼저 설치를 해 주자.
+만약 회사에서 작업한다면 회사에서 사용하는 가상화를 따로 만들어 주자.
+집, 회사 각각 하나씩 가상화. 소스는 같이 사용을 해도 된다.
 pip install scipy==1.9.1
 pip install pandas
 pip install matplotlib
