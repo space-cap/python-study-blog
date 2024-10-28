@@ -18,6 +18,7 @@ pip install pandas
 pip install matplotlib
 pip install yfinance
 pip install pandas-datareader
+pip install pymysql
 
 
 파이썬 3.8.10 32비트 설치
