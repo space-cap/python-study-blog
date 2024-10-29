@@ -4,6 +4,7 @@ import yfinance as yf
 import matplotlib.pylab as plt
 import pymysql, calendar, time, json
 import requests
+import urllib3
 from scipy import stats
 from datetime import datetime
 from sqlalchemy import create_engine
@@ -89,6 +90,9 @@ class DBUpdater:
     def read_naver(self, code, company, pages_to_fetch):
         """네이버에서 주식 시세를 읽어서 데이터프레임으로 반환"""
         try:
+            # https://remake.tistory.com/113
+            # ssl 에러 메시지 숨김
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
             url = f"http://finance.naver.com/item/sise_day.nhn?code={code}"
             html = requests.get(url, verify=False, headers={'User-agent': 'Mozilla/5.0'}).text
             bs = BeautifulSoup(html, 'lxml')
