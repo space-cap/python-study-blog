@@ -107,22 +107,17 @@ class DBUpdater:
             html = response.text
             bs = BeautifulSoup(html, 'lxml')
 
-           
             # last_page = int(str(pgrr.a['href']).split('=')[-1])
             # print(last_page)
             
             pgrr = bs.find('td', class_='pgRR')
-            print(pgrr.a['href'])
+            # print(pgrr.a['href'])
             s = str(pgrr.a['href']).split('=')
-            print(s)
+            # print(s)
             last_page = s[-1]
-
-            print("last_page: " , last_page)
-
-
+            # print("last_page: " , last_page)
+            
             last_page = int(last_page)
-
-
             df_list = []
             pages = min(last_page, pages_to_fetch)
             
@@ -248,6 +243,6 @@ class DBUpdater:
 
 if __name__ == '__main__':
     dbu = DBUpdater()
-    # dbu.execute_daily()
-    dbu.read_naver('068270', '셀트리온', 1)
+    dbu.execute_daily()
+    #dbu.read_naver('068270', '셀트리온', 1)
 
