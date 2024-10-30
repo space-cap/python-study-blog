@@ -49,7 +49,7 @@ def save_to_db(df, connection):
     with connection.cursor() as cursor:
         # 테이블이 없는 경우 생성, ticker와 date를 복합 기본키로 설정
         cursor.execute("""
-        CREATE TABLE IF NOT EXISTS daily_price (
+        CREATE TABLE IF NOT EXISTS daily_price_yfinanace (
             ticker VARCHAR(10),
             date DATE,
             open FLOAT,
@@ -65,7 +65,7 @@ def save_to_db(df, connection):
         # 데이터프레임의 각 행을 MariaDB에 저장
         for _, row in df.iterrows():
             sql = """
-            REPLACE INTO daily_price (ticker, date, open, high, low, close, adj_close, volume)
+            REPLACE INTO daily_price_yfinanace (ticker, date, open, high, low, close, adj_close, volume)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(sql, (
