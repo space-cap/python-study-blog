@@ -3,8 +3,9 @@ import pymysql
 import pandas as pd
 import urllib3
 import certifi
-from datetime import datetime
+import requests
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 
 # SSL 경고 비활성화
@@ -16,7 +17,6 @@ load_dotenv()
 # 환경 변수 가져오기
 db_password = os.getenv('DB_PASSWORD')
 db_user = os.getenv('DB_USER')
-
 
 # MariaDB 연결 설정
 db_connection = pymysql.connect(
@@ -31,12 +31,17 @@ db_connection = pymysql.connect(
 start_date = datetime(2024,1,1) 
 end_date = datetime(2024,12,31)
 
+# 인증서 경로 설정
+cert_path = certifi.where()
+session = requests.Session()
+session.verify = cert_path  # 세션에서 SSL 인증서를 설정
+
 # 삼성전자 종목코드 (Yahoo Finance에서는 '005930.KS')
 ticker = '005930.KS'
 
 try:
     # yfinance를 사용하여 삼성전자 일별 시세 데이터 가져오기
-    df = yf.download(ticker, start_date, end_date, progress=False, session_options={'verify': False})
+    df = yf.download(ticker, start_date, end_date, progress=False)
 except Exception as e:
     print(f"Failed to download data for ticker '{ticker}' due to: {e}")
 else:
