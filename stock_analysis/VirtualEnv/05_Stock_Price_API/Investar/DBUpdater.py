@@ -9,6 +9,7 @@ from scipy import stats
 from datetime import datetime
 from sqlalchemy import create_engine
 from bs4 import BeautifulSoup
+from threading import Timer
 
 class DBUpdater:  
     def __init__(self):
@@ -187,9 +188,51 @@ class DBUpdater:
 
     def execute_daily(self):
         """실행 즉시 및 매일 오후 다섯시에 daily_price 테이블 업데이트"""
+        # 회사 정보를 업데이트합니다.
+        self.update_comp_info()
+
+        try:
+            # config.json 파일에서 pages_to_fetch 값을 읽어옵니다.
+            with open('config.json', 'r') as in_file:
+                config = json.load(in_file)
+                pages_to_fetch = config.get('pages_to_fetch', 1)  # 기본값 100
+        except (FileNotFoundError, json.JSONDecodeError):
+            # 파일이 없거나 JSON 형식에 문제가 있을 경우, 기본값을 설정하고 파일을 생성합니다.
+            pages_to_fetch = 1
+            config = {'pages_to_fetch': pages_to_fetch}
+            with open('config.json', 'w') as out_file:
+                json.dump(config, out_file)
+        
+        # 주식 시세 업데이트
+        self.update_daily_price(pages_to_fetch)
+
+        # 다음 실행 시간 계산
+        tmnow = datetime.now()
+        lastday = calendar.monthrange(tmnow.year, tmnow.month)[1]
+
+        # 매일 5시에 업데이트 스케줄 설정
+        if tmnow.month == 12 and tmnow.day == lastday:
+            tmnext = tmnow.replace(year=tmnow.year+1, month=1, day=1,
+                hour=17, minute=0, second=0)
+        elif tmnow.day == lastday:
+            tmnext = tmnow.replace(month=tmnow.month+1, day=1, hour=17,
+                minute=0, second=0)
+        else:
+            tmnext = tmnow.replace(day=tmnow.day+1, hour=17, minute=0,
+                second=0)   
+
+        # 다음 실행까지 대기 시간 설정
+        tmdiff = tmnext - tmnow
+        secs = tmdiff.total_seconds()  # 정확한 대기 시간을 계산합니다.
+        t = Timer(secs, self.execute_daily)
+        
+        # 대기 메시지 출력
+        print(f"Waiting for next update ({tmnext.strftime('%Y-%m-%d %H:%M')}) ...")
+        t.start()
+
 
 
 if __name__ == '__main__':
     dbu = DBUpdater()
-    dbu.read_naver('068270', 'sel', 1)
+    dbu.execute_daily()
 
