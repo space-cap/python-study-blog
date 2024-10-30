@@ -107,10 +107,22 @@ class DBUpdater:
             html = response.text
             bs = BeautifulSoup(html, 'lxml')
 
-            pgrr = bs.find('td', class_='pgRR')
-            last_page = int(str(pgrr.a['href']).split('=')[-1])
-            print(last_page)
+           
+            # last_page = int(str(pgrr.a['href']).split('=')[-1])
+            # print(last_page)
             
+            pgrr = bs.find('td', class_='pgRR')
+            print(pgrr.a['href'])
+            s = str(pgrr.a['href']).split('=')
+            print(s)
+            last_page = s[-1]
+
+            print("last_page: " , last_page)
+
+
+            last_page = int(last_page)
+
+
             df_list = []
             pages = min(last_page, pages_to_fetch)
             
