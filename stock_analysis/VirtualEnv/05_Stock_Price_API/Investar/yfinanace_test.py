@@ -2,12 +2,17 @@ import yfinance as yf
 import pymysql
 import pandas as pd
 import urllib3
+import certifi
 from datetime import datetime
 import os
 from dotenv import load_dotenv
 
-os.environ['REQUESTS_CA_BUNDLE'] = 'D:\workdir\github-space-cap\python-study-blog\stock_analysis\VirtualEnv\05_Stock_Price_API\Investar'
+# Certifi로 인증서 경로 설정
+cert_path = certifi.where()
 
+# 세션 생성 및 인증서 경로 지정
+session = yf.utils.requests.Session()
+session.verify = cert_path  # 인증서 경로를 지정
 
 # SSL 경고 비활성화
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -38,7 +43,7 @@ ticker = '005930.KS'
 
 try:
     # yfinance를 사용하여 삼성전자 일별 시세 데이터 가져오기
-    df = yf.download(ticker, start_date, end_date, progress=False)
+    df = yf.download(ticker, start_date, end_date, progress=False, session_options={'verify': False})
 except Exception as e:
     print(f"Failed to download data for ticker '{ticker}' due to: {e}")
 else:
