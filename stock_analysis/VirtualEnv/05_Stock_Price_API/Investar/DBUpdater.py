@@ -104,8 +104,34 @@ class DBUpdater:
             
             df = pd.DataFrame()
 
+            pages = min(int(last_page), pages_to_fetch)
+            
+            df_list = []  # 빈 리스트 생성
+            
+            pages = 1 # 임시로 1페이지만 읽기
+            for page in range(1, pages+1):
+                pg_url = '{}&page={}'.format(url, page)
+                html = requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text
+    
+                # 페이지에서 데이터 읽어오기
+                page_df = pd.read_html(html, header=0)[0]
+                df_list.append(page_df)  # 데이터프레임을 리스트에 추가
+                time.sleep(2)  # 2초 동안 멈춤
 
 
+
+                tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
+                print('[{}] {} ({}) : {:04d}/{:04d} pages are downloading...'.
+                    format(tmnow, company, code, page, pages), end="\r")
+
+            # 리스트에 있는 데이터프레임을 하나로 합치기
+            df = pd.concat(df_list, ignore_index=True)
+
+            # NaN 값 제거
+            df = df.dropna()  # NaN이 포함된 행을 제거합니다. # 값이 빠진 행을 제거한다.
+
+            print(df)
+            
             return None
         except Exception as e:
             print('Exception occurred:', str(e))
