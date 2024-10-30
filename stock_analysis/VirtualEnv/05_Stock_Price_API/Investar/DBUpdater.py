@@ -152,8 +152,10 @@ class DBUpdater:
             
             df['date'] = df['date'].replace('.', '-')
 
-            df[['close', 'diff', 'open', 'high', 'low', 'volume']] = df[['close',
-                'diff', 'open', 'high', 'low', 'volume']].astype(int)
+            # 숫자가 아닌 문자는 모두 제거하고 정수형으로 변환
+            for col in ['close', 'diff', 'open', 'high', 'low', 'volume']:
+                df[col] = df[col].astype(str).str.replace(r'[^0-9]', '', regex=True).astype(int)
+
             df = df[['date', 'open', 'high', 'low', 'close', 'diff', 'volume']]
 
         except Exception as e:
@@ -246,5 +248,6 @@ class DBUpdater:
 
 if __name__ == '__main__':
     dbu = DBUpdater()
-    dbu.execute_daily()
+    # dbu.execute_daily()
+    dbu.read_naver('068270', '셀트리온', 1)
 
