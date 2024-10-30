@@ -45,7 +45,7 @@ class DBUpdater:
         self.conn.commit()
         self.codes = dict()
     
-    
+
     def __del__(self):
         """소멸자: MariaDB 연결 해제"""
         self.conn.close()
@@ -154,6 +154,16 @@ class DBUpdater:
 
     def replace_into_db(self, df, num, code, company):
         """네이버에서 읽어온 주식 시세를 DB에 REPLACE"""
+        with self.conn.cursor() as curs:
+            for r in df.itertuples():
+                sql = f"REPLACE INTO daily_price VALUES ('{code}', "\
+                    f"'{r.date}', {r.open}, {r.high}, {r.low}, {r.close}, "\
+                    f"{r.diff}, {r.volume})"
+                curs.execute(sql)
+            self.conn.commit()
+            print('[{}] #{:04d} {} ({}) : {} rows > REPLACE INTO daily_'\
+                'price [OK]'.format(datetime.now().strftime('%Y-%m-%d'\
+                ' %H:%M'), num+1, company, code, len(df)))
 
 
     def execute_daily(self):
