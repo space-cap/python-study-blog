@@ -123,8 +123,6 @@ class DBUpdater:
                 df_list.append(page_df)  # 데이터프레임을 리스트에 추가
                 time.sleep(2)  # 2초 동안 멈춤
 
-
-
                 tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
                 print(f'[{tmnow}] {company} ({code}) : {page:04d}/{pages:04d} pages are downloading...', end="\r")
 
@@ -164,10 +162,27 @@ class DBUpdater:
                 curs.execute(sql, (code, r.date, r.open, r.high, r.low, r.close, r.diff, r.volume))
                 
             self.conn.commit()
-            
+
             print('[{}] #{:04d} {} ({}) : {} rows > REPLACE INTO daily_'\
                 'price [OK]'.format(datetime.now().strftime('%Y-%m-%d'\
                 ' %H:%M'), num+1, company, code, len(df)))
+
+
+    def update_daily_price(self, pages_to_fetch):
+        """KRX 상장법인의 주식 시세를 네이버로부터 읽어서 DB에 업데이트"""  
+        for idx, code in enumerate(self.codes):
+            try:
+                # 네이버에서 주식 데이터를 읽어오기
+                df = self.read_naver(code, self.codes[code], pages_to_fetch)
+                if df is None:
+                    print(f"[{self.codes[code]}] 데이터를 읽어오지 못했습니다.")
+                    continue
+                
+                # DB에 데이터 업데이트
+                self.replace_into_db(df, idx, code, self.codes[code])
+            except Exception as e:
+                print(f"오류 발생 - {self.codes[code]} ({code}): {e}")
+                continue   
 
 
     def execute_daily(self):
