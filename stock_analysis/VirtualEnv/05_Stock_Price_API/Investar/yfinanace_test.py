@@ -82,6 +82,10 @@ else:
             )
             """)
 
+            # 날짜 형식 변경하기
+            df['date'] = df['date'].dt.date  # 날짜에서 시간 정보를 제거하여 순수한 날짜 형식으로 변경
+            # df['Date'] = df['Date'].astype(str) # 날짜를 문자열로 변환
+
             # 데이터프레임의 각 행을 MariaDB에 저장
             for _, row in df.iterrows():
                 sql = """
