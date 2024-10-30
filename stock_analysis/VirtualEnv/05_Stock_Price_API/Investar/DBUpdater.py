@@ -156,11 +156,15 @@ class DBUpdater:
         """네이버에서 읽어온 주식 시세를 DB에 REPLACE"""
         with self.conn.cursor() as curs:
             for r in df.itertuples():
-                sql = f"REPLACE INTO daily_price VALUES ('{code}', "\
-                    f"'{r.date}', {r.open}, {r.high}, {r.low}, {r.close}, "\
-                    f"{r.diff}, {r.volume})"
-                curs.execute(sql)
+                sql = """
+                    REPLACE INTO daily_price 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                # r의 각 필드를 정확하게 불러옵니다.
+                curs.execute(sql, (code, r.date, r.open, r.high, r.low, r.close, r.diff, r.volume))
+                
             self.conn.commit()
+            
             print('[{}] #{:04d} {} ({}) : {} rows > REPLACE INTO daily_'\
                 'price [OK]'.format(datetime.now().strftime('%Y-%m-%d'\
                 ' %H:%M'), num+1, company, code, len(df)))
