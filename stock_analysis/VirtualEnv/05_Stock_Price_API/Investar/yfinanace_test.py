@@ -7,13 +7,6 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
 
-# Certifi로 인증서 경로 설정
-cert_path = certifi.where()
-
-# 세션 생성 및 인증서 경로 지정
-session = yf.utils.requests.Session()
-session.verify = cert_path  # 인증서 경로를 지정
-
 # SSL 경고 비활성화
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
