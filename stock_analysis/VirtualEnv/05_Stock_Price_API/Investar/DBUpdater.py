@@ -93,36 +93,36 @@ class DBUpdater:
             # https://remake.tistory.com/113
             # ssl 에러 메시지 숨김
             urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            # 세션을 사용하여 요청 시도 및 SSL 검증 무시
+            session = requests.Session()
+            session.verify = False
             url = f"http://finance.naver.com/item/sise_day.nhn?code={code}"
-            html = requests.get(url, verify=False, headers={'User-agent': 'Mozilla/5.0'}).text
+            
+            response = session.get(url, headers={'User-agent': 'Mozilla/5.0'})
+            html = response.text
             bs = BeautifulSoup(html, 'lxml')
-            pgrr = bs.find('td', class_='pgRR')
-            s = str(pgrr.a['href']).split('=')
-            last_page = s[-1]
 
+            pgrr = bs.find('td', class_='pgRR')
+            last_page = int(str(pgrr.a['href']).split('=')[-1])
             print(last_page)
             
-            df = pd.DataFrame()
-
-            pages = min(int(last_page), pages_to_fetch)
-            
-            df_list = []  # 빈 리스트 생성
+            df_list = []
+            pages = min(last_page, pages_to_fetch)
             
             pages = 1 # 임시로 1페이지만 읽기
             for page in range(1, pages+1):
-                pg_url = '{}&page={}'.format(url, page)
-                html = requests.get(url, headers={'User-agent': 'Mozilla/5.0'}).text
+                pg_url = f"{url}&page={page}"
+                page_html = session.get(pg_url, headers={'User-agent': 'Mozilla/5.0'}).text
     
                 # 페이지에서 데이터 읽어오기
-                page_df = pd.read_html(html, header=0)[0]
+                page_df = pd.read_html(page_html, header=0)[0]
                 df_list.append(page_df)  # 데이터프레임을 리스트에 추가
                 time.sleep(2)  # 2초 동안 멈춤
 
 
 
                 tmnow = datetime.now().strftime('%Y-%m-%d %H:%M')
-                print('[{}] {} ({}) : {:04d}/{:04d} pages are downloading...'.
-                    format(tmnow, company, code, page, pages), end="\r")
+                print(f'[{tmnow}] {company} ({code}) : {page:04d}/{pages:04d} pages are downloading...', end="\r")
 
             # 리스트에 있는 데이터프레임을 하나로 합치기
             df = pd.concat(df_list, ignore_index=True)
@@ -131,7 +131,7 @@ class DBUpdater:
             df = df.dropna()  # NaN이 포함된 행을 제거합니다. # 값이 빠진 행을 제거한다.
 
             print(df)
-            
+
             return None
         except Exception as e:
             print('Exception occurred:', str(e))
