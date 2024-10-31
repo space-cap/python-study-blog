@@ -30,6 +30,9 @@ df["Date"] = pd.to_datetime(df["Timestamp"], unit="ms")
 df.set_index("Date", inplace=True)
 df.drop("Timestamp", axis=1, inplace=True)
 
+# 등락률 계산
+df['Change'] = (df['Close'] - df['Open']) / df['Open']
+
 print(df.head())
 
 # CSV 파일로 저장
