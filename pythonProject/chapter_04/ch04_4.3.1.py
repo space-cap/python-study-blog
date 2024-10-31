@@ -76,11 +76,11 @@ def forecast_next_week(model, data, scaler, window_size=30):
     # 모델을 사용하여 예측 수행
     forecast_scaled = model.predict(last_sequence_scaled)
 
-    # 예측된 값에 종가 열만 남기고, PER 열은 0으로 채워서 원래 형식으로 변환
+    # 예측된 값에 종가 열만 남기고, PER 열을 0으로 채워서 원래 형식으로 변환
     forecast_with_per = np.concatenate([forecast_scaled, np.zeros((forecast_scaled.shape[0], 1))], axis=1)
 
     # 역변환하여 실제 예측값으로 변환
-    forecast = scaler.inverse_transform(forecast_with_per)[:, 0]
+    forecast = scaler.inverse_transform(forecast_with_per)[:, 0]  # 첫 번째 열 (종가)만 선택
     return forecast
 
 
