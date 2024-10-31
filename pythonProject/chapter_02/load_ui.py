@@ -1,31 +1,26 @@
-from PySide2.QtWidgets import QApplication, QMainWindow
-from PySide2 import QtUiTools, QtCore
+from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 
 # UI 파일 경로
-ui_file_path = "test_ui.ui"  # 여기에 ui 파일 경로를 입력하세요
-
+ui_file_path = "TestProgramUI.ui"  # 여기에 ui 파일 경로를 입력하세요
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        # QFile로 UI 파일 열기
-        ui_file = QtCore.QFile(ui_file_path)
-        ui_file.open(QtCore.QFile.ReadOnly)
+        # loadUi 함수로 UI 파일 불러오기
+        uic.loadUi(ui_file_path, self)
 
-        # QUiLoader로 UI 파일 로드
-        loader = QtUiTools.QUiLoader()
-        self.ui = loader.load(ui_file, self)
+        # UI 초기화 후 원하는 기능 추가
+        self.pushButton.clicked.connect(self.print_function)
 
-        # QFile 닫기
-        ui_file.close()
-
-        # UI 표시
-        self.ui.show()
+    def print_function(self):
+        self.lineEdit.setText("안녕하세요!")
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = MainWindow()
+    main_window.show()  # UI 창을 띄우기
     sys.exit(app.exec_())
