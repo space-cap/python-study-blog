@@ -68,13 +68,19 @@ model.fit(x_train, y_train, epochs=20, batch_size=16, verbose=1)
 
 # 3. 예측 및 시각화
 def forecast_next_week(model, data, scaler, window_size=30):
+    # 마지막 30일 데이터를 선택하고 스케일링
     last_sequence = data[-window_size:]
     last_sequence_scaled = scaler.transform(last_sequence)
     last_sequence_scaled = np.expand_dims(last_sequence_scaled, axis=0)
 
+    # 모델을 사용하여 예측 수행
     forecast_scaled = model.predict(last_sequence_scaled)
-    forecast = scaler.inverse_transform(
-        np.concatenate([forecast_scaled, np.zeros((forecast_scaled.shape[0], 1))], axis=1))[:, 0]
+
+    # 예측된 값에 종가 열만 남기고, PER 열은 0으로 채워서 원래 형식으로 변환
+    forecast_with_per = np.concatenate([forecast_scaled, np.zeros((forecast_scaled.shape[0], 1))], axis=1)
+
+    # 역변환하여 실제 예측값으로 변환
+    forecast = scaler.inverse_transform(forecast_with_per)[:, 0]
     return forecast
 
 
