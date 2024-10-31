@@ -5,10 +5,9 @@ import tensorflow as tf
 from tensorflow import keras
 import matplotlib.pyplot as plt
 
-# 삼성전자의 오늘부터 1년 동안의 OHLCV와 펀더멘털 지표를 가져옵니다.
+# 삼성전자의 오늘부터 1년 동안의 OHLCV 데이터를 가져옵니다.
 today = pd.Timestamp('2024-10-31')
-ohlcv = pykrx.get_market_ohlcv_by_date('005930', start=today - pd.DateOffset(years=1), end=today)
-fundamental = pykrx.get_market_fundamental_by_date('005930', start=today - pd.DateOffset(years=1), end=today)
+ohlcv = pykrx.get_market_ohlcv('005930', start=today - pd.DateOffset(years=1), end=today)
 
 # 종가와 PER를 이용하여 LSTM 모델을 만듭니다.
 model = keras.models.Sequential([
