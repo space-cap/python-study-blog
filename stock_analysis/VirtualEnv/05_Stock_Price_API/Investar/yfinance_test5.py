@@ -43,5 +43,24 @@ query = "SELECT code, market FROM company_info"
 company_info = pd.read_sql_query(query, engine)
 
 # 데이터가 제대로 읽혀졌는지 확인
-print(company_info)
+# print(company_info)
+
+# 4. 모든 code에 대해 데이터를 처리
+with conn.cursor() as cursor:
+    for index, row in company_info.iterrows():
+        code = row['code']
+        market = row['market']
+
+        if market == 'Y':
+            code_suffix = '.KS'
+        elif market == 'K':
+            code_suffix = '.KQ'
+        else:
+            continue  # 다음 코드로 넘어감
+
+        # 종목 코드 변환
+        ticker = code + code_suffix
+        print(f"Processing Ticker: {ticker}")
+
+        
 
