@@ -13,15 +13,20 @@ dart_api_key = os.getenv('DART_FSS_KEY')
 dart.set_api_key(dart_api_key)
 
 # 삼성전자 종목 코드 (005930)
-samsung_stock_code = '005930'
+stock_code = '168360'
 
-# 종목 정보 가져오기
-stock_info = dart.get_stock_info(samsung_stock_code)
+# 기업 리스트 가져오기
+corp_list = dart.get_corp_list()
 
-# 시장 구분 확인
-if stock_info['market'] == 'KOSPI':
-    print("삼성전자는 KOSPI에 상장되어 있습니다.")
-elif stock_info['market'] == 'KOSDAQ':
-    print("삼성전자는 KOSDAQ에 상장되어 있습니다.")
+# 삼성전자 종목 코드로 기업 검색 (종목 코드: '005930')
+samsung = corp_list.find_by_stock_code(stock_code)
+
+# 기업 분류 정보 확인
+corp_classification = samsung.info['corp_cls']
+
+if corp_classification == 'Y':
+    print("KOSPI에 상장되어 있습니다.")
+elif corp_classification == 'K':
+    print("KOSDAQ에 상장되어 있습니다.")
 else:
-    print("삼성전자는 KOSPI 또는 KOSDAQ에 상장되어 있지 않습니다.")
+    print("다른 시장에 상장되어 있습니다.")

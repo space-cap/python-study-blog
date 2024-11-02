@@ -16,6 +16,10 @@ dart_fss.set_api_key(dart_api_key)
 corp_list = dart_fss.get_corp_list()
 
 # print(corp_list.corps)
+df = pd.DataFrame(corp_list.corps)
+print(df)
+
+
 
 # DART에 등록되어있는 공시대상회사의 고유번호,회사명,대표자명,종목코드, 최근변경일자 다운로드
 # https://dart-fss.readthedocs.io/en/latest/dart_api.html#dart_fss.api.filings.download_document
