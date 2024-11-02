@@ -37,7 +37,8 @@ corp_list = dart_fss.get_corp_list()
 
 
 # 삼성전자 정보 가져오기
-samsung = corp_list.find_by_corp_name('삼성전자', exactly=True)
+# samsung = corp_list.find_by_corp_name('삼성전자', exactly=True)
+samsung = corp_list.find_by_stock_code('005930')
 
 # 리스트의 첫 번째 결과 선택 후 출력
 if samsung:
