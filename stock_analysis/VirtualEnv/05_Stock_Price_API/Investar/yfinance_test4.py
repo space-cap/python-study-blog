@@ -81,6 +81,10 @@ with conn.cursor() as cursor:
             f" VALUES ('{code}', '{company}', '{today}', '{corp_classification}')"
         cursor.execute(sql)
 
+    conn.commit()
+    print("Data saved to database successfully.")
 
+# 데이터베이스 연결 닫기
+conn.close()
 
 
