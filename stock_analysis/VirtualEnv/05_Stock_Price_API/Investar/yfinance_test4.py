@@ -52,7 +52,7 @@ corp_list = dart_fss.corp.get_corp_list()
 today = datetime.today().strftime('%Y-%m-%d')
 
 # 4. 모든 code에 대해 데이터를 처리
-with conn.curs() as curs:
+with conn.cursor() as cursor:
     for index, row in company_info.iterrows():
         code = row['code']
         company = row['company']
@@ -79,7 +79,7 @@ with conn.curs() as curs:
 
         sql = f"REPLACE INTO company_info (code, company, last_update, market) "\
             f" VALUES ('{code}', '{company}', '{today}', '{corp_classification}')"
-        curs.execute(sql)
+        cursor.execute(sql)
 
 
 
