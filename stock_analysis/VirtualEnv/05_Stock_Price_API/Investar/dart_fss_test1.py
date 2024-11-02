@@ -42,6 +42,6 @@ samsung = corp_list.find_by_stock_code('005930')
 
 # 리스트의 첫 번째 결과 선택 후 출력
 if samsung:
-    print(samsung[0].to_dict())
+    print(samsung.to_dict())
 else:
     print("기업을 찾을 수 없습니다.")
