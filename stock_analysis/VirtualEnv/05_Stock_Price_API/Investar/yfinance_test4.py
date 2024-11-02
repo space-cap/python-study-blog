@@ -42,11 +42,14 @@ corp_list = dart_fss.corp.get_corp_list()
 # 4. 모든 code에 대해 데이터를 처리
 for index, row in company_info.iterrows():
     code = row['code']
+    company = row['company']
 
     # 종목 코드로 기업 검색 (종목 코드: '005930')
     corp = corp_list.find_by_stock_code(code)
 
     # 기업 분류 정보 확인
+    # market : str or list of str, optional
+    # 'Y': 코스피, 'K': 코스닥, 'N': 코넥스, 'E': 기타
     corp_classification = corp.info['corp_cls']
 
     if corp_classification == 'Y':
@@ -54,7 +57,7 @@ for index, row in company_info.iterrows():
     elif corp_classification == 'K':
         code_suffix = '.KQ'
     else:
-        print(f"Warning: {code}/{corp_classification} 의 시장 구분을 찾을 수 없습니다.")
+        print(f"Warning: {company}/{code}/{corp_classification} 의 시장 구분을 찾을 수 없습니다.")
         continue  # 다음 코드로 넘어감
 
     # 종목 코드 변환
