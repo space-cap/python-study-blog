@@ -1,7 +1,16 @@
 import dart_fss as dart
+import os
+import pandas as pd
+from dotenv import load_dotenv
 
-# DART API 키 설정
-dart.set_api_key('YOUR_DART_API_KEY')
+# .env 파일 불러오기
+load_dotenv()
+
+# 환경 변수 가져오기
+dart_api_key = os.getenv('DART_FSS_KEY')
+
+# OpenDart API 키 설정
+dart.set_api_key(dart_api_key)
 
 # 삼성전자 종목 코드 (005930)
 samsung_stock_code = '005930'
