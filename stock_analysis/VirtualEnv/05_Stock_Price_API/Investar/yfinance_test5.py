@@ -45,7 +45,7 @@ company_info = pd.read_sql_query(query, engine)
 # 데이터가 제대로 읽혀졌는지 확인
 # print(company_info)
 
-start_date = datetime(2024,1,1) 
+start_date = datetime(2020,1,1) 
 end_date = datetime(2024,12,31)
 
 # MariaDB에 데이터 저장
