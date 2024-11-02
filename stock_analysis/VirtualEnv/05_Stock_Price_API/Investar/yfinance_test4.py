@@ -19,11 +19,11 @@ db_user = os.getenv('DB_USER')
 dart_api_key = os.getenv('DART_FSS_KEY')
 
 # 1. SQLAlchemy를 사용하여 MariaDB 데이터베이스 연결
-user = db_user       # MariaDB 사용자 이름
-password = db_password   # MariaDB 비밀번호
-host = 'localhost'           # MariaDB 호스트 (예: 'localhost')
-port = 3306                  # 포트 번호 (기본값: 3306)
-database = 'investar'   # 데이터베이스 이름
+user = db_user              # MariaDB 사용자 이름
+password = db_password      # MariaDB 비밀번호
+host = 'localhost'          # MariaDB 호스트 (예: 'localhost')
+port = 3306                 # 포트 번호 (기본값: 3306)
+database = 'investar'       # 데이터베이스 이름
 
 # MariaDB 연결 설정
 conn = pymysql.connect(
@@ -71,7 +71,7 @@ with conn.cursor() as cursor:
             code_suffix = '.KQ'
         else:
             print(f"Warning: {company}/{code}/{corp_classification} 의 시장 구분을 찾을 수 없습니다.")
-            # continue  # 다음 코드로 넘어감
+            continue  # 다음 코드로 넘어감
 
         # 종목 코드 변환
         ticker = code + code_suffix
