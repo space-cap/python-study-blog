@@ -39,7 +39,7 @@ conn = pymysql.connect(
 engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}")
 
 # 2. company_info 테이블에서 모든 데이터를 읽기
-query = "SELECT code, market FROM company_info"
+query = "SELECT code, market FROM company_info LIMIT 2"
 company_info = pd.read_sql_query(query, engine)
 
 # 데이터가 제대로 읽혀졌는지 확인
