@@ -44,3 +44,4 @@ company_info = pd.read_sql_query(query, engine)
 
 # 데이터가 제대로 읽혀졌는지 확인
 print(company_info)
+
