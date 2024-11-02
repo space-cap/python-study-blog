@@ -73,11 +73,11 @@ for _ in range(n_day):
     last_seq = scaled_data[-seq_length:]
     last_seq = last_seq.reshape(1, seq_length, 2)
     prediction = model.predict(last_seq)
-    predictions.append(prediction[0,0])
+    predictions.append(prediction[0, 0])
 
-    new_seq = np.array([[prediction[0,0], last_seq[0,-1,1]]])
+    new_seq = np.array([[prediction[0, 0], last_seq[0, -1, 1]]])  # 종가 예측값과 PER의 마지막 값을 사용
     scaled_data = np.concatenate((scaled_data, new_seq), axis=0)
-    
+
 
 
 
