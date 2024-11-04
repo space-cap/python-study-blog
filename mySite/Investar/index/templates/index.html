@@ -1,6 +1,8 @@
+{% load static %} 
 <html>
     <head>
         <title>This is title.</title> 
+		<link rel="stylesheet" href={% static "index/style.css" %} />
     </head>
     <body>
         <h1>This is heading1 text.</h1>
@@ -38,7 +40,7 @@
                 <td>table data 9</td>
             </tr>
         </table><br />
-        <a href="www.djangoproject.com">Visit Django homepage!<br />
-        <img src="Django_Logo.png"/></a>
+        <a href="https://www.djangoproject.com">Visit Django homepage!<br />
+        <img src={% static "index/Django_Logo.jpg" %} /></a>
     </body>
 </html>
