@@ -243,6 +243,7 @@ class DBUpdater:
 
 if __name__ == '__main__':
     dbu = DBUpdater()
-    dbu.execute_daily()
+    #dbu.execute_daily()
+    dbu.update_comp_info()
     #dbu.read_naver('068270', '셀트리온', 1)
 

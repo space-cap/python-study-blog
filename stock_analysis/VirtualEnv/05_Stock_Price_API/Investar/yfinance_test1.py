@@ -35,7 +35,7 @@ end_date = datetime(2024,12,31)
 cert_path = certifi.where()
 
 # 삼성전자 종목코드 (Yahoo Finance에서는 '005930.KS')
-ticker = '005930.KS'
+ticker = '035420.KS'
 
 try:
     # yfinance를 사용하여 삼성전자 일별 시세 데이터 가져오기
