@@ -121,7 +121,7 @@ class DBUpdater:
             df_list = []
             pages = min(last_page, pages_to_fetch)
             
-            pages = 1 # 임시로 1페이지만 읽기
+            # pages = 1 # 임시로 1페이지만 읽기
             for page in range(1, pages+1):
                 pg_url = f"{url}&page={page}"
                 page_html = session.get(pg_url, headers={'User-agent': 'Mozilla/5.0'}).text
@@ -245,5 +245,6 @@ if __name__ == '__main__':
     dbu = DBUpdater()
     #dbu.execute_daily()
     dbu.update_comp_info()
+    dbu.update_daily_price(100)
     #dbu.read_naver('068270', '셀트리온', 1)
 
