@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles', # 정적 파일 관리
     'hello',
     'index',
+    'balance',
 ]
 
 MIDDLEWARE = [
