@@ -31,7 +31,8 @@ df = df.reset_index()  # 인덱스를 초기화하여 'Date' 열을 열로 변�
 df.columns = ['date', 'adj_close', 'close', 'high', 'low', 'open', 'volume']  # 컬럼 이름 변경
 print(df)
 
-df['date'] = pd.to_datetime([x[:-9] for x in df['date'].squeeze().tolist()], dayfirst=True)
+# df['date'] = pd.to_datetime([x[:-9] for x in df['date'].squeeze().tolist()], dayfirst=True)
+df['date'] = pd.to_datetime(df['date'],format='%Y-%m-%d %H:%M:%S', dayfirst=True)
 df.set_index('date', inplace=True)
 print(df)
 
