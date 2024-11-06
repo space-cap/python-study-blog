@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # 환경 변수 가져오기
-SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
+SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN_msg_bot')
 
 # Slack Bot Token 설정
 client = WebClient(token=SLACK_BOT_TOKEN)
