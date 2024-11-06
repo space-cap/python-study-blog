@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # 환경 변수 가져오기
-slack_token = os.getenv('SLACK_TOKEN')
+slack_token = os.getenv('SLACK_BOT_TOKEN')
 
 slack = Slacker(slack_token)
 
@@ -29,4 +29,4 @@ attach_dict = {
 }
 
 attach_list = [attach_dict]
-slack.chat.post_message(channel="#general", text=markdown_text, attachments=attach_list)
+slack.chat.post_message(channel="#submarine", text=markdown_text, attachments=attach_list)
