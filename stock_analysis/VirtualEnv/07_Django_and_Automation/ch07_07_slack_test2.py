@@ -30,7 +30,7 @@ attach_dict = {
     'image_url'  :'https://ssl.pstatic.net/imgstock/chart3/day/KOSPI.png'
 }
 
-attach_list = [attach_dict,attach_dict]
+attach_list = [attach_dict]
 
 try:
     response = client.chat_postMessage(
