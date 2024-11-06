@@ -22,6 +22,7 @@ pip install pymysql
 pip install SQLAlchemy
 pip install python-dotenv
 pip install dart-fss
+pip install backtrader
 
 
 파이썬 3.8.10 32비트 설치
