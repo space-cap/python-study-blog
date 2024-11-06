@@ -23,7 +23,10 @@ cerebro = bt.Cerebro()
 cerebro.addstrategy(MyStrategy)
 
 # Add data feed to cerebro
+df = yf.download("036570.KS", start="2024-01-01", end="2024-11-05")
+
 data = bt.feeds.PandasData(dataname= yf.download('TSLA','2018-01-01','2021-12-31'))
+
 cerebro.adddata(data)
 
 cerebro.run()
