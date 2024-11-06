@@ -39,3 +39,4 @@ cerebro.adddata(data_feed)
 cerebro.broker.set_cash(10000000)  # Set initial portfolio value
 cerebro.run()
 cerebro.plot()
+
