@@ -1,6 +1,7 @@
-from datetime import datetime
 import backtrader as bt
 import yfinance as yf
+import pandas as pd
+
 
 class MyStrategy(bt.Strategy):  # ①
     def __init__(self):
@@ -15,8 +16,6 @@ class MyStrategy(bt.Strategy):  # ①
 
 cerebro = bt.Cerebro()  # ④
 cerebro.addstrategy(MyStrategy)
-
-
 
 # data = bt.feeds.YahooFinanceData(dataname='036570.KS', fromdate=datetime(2017, 1, 1), todate=datetime(2019, 12, 1))
 df = yf.download("036570.KS", start="2024-01-01", end="2024-11-05")
