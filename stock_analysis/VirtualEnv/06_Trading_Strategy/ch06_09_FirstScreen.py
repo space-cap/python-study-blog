@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import datetime
 # from mpl_finance import candlestick_ohlc
 # https://github.com/matplotlib/mplfinance?tab=readme-ov-file#old-api-availability
+# https://wikidocs.net/229246
 from mplfinance.original_flavor import candlestick_ohlc
 import matplotlib.dates as mdates
 from Investar import Analyzer
