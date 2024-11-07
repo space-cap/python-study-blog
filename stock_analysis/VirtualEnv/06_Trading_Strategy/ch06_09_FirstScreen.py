@@ -21,18 +21,19 @@ df = df.assign(ema130=ema130, ema60=ema60, macd=macd, signal=signal,
     macdhist=macdhist).dropna() 
 df['number'] = df.index.map(mdates.date2num)  # ⑥
 
-print(df)
+# print(df)
 
-ohlc = df[['number','open','high','low','close']]
+ohlc = df[['date','open','high','low','close','volume']]
+ohlc.set_index('date', inplace=True)
 
 plt.figure(figsize=(9, 7))
 p1 = plt.subplot(2, 1, 1)
 plt.title('Triple Screen Trading - First Screen (NCSOFT)')
 plt.grid(True)
 
-# print(ohlc)
+print(ohlc)
 # candlestick_ohlc(p1, ohlc.values, width=.6, colorup='red', colordown='blue')  # ⑦
-mpf.plot(ohlc.values, type='candle', ax=p1, volume=True, style='charles')
+mpf.plot(ohlc, type='candle', ax=p1, volume=True, style='charles')
 
 p1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 plt.plot(df.number, df['ema130'], color='c', label='EMA130')
