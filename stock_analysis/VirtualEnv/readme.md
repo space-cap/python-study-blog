@@ -25,6 +25,7 @@ pip install dart-fss
 pip install backtrader
 pip install slacker
 pip install slack_sdk
+pip install mplfinance
 
 파이썬 3.8.10 32비트 설치
 https://www.python.org/downloads/release/python-3810/
