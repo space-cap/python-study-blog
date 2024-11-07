@@ -34,6 +34,7 @@ candlestick_ohlc(p1, ohlc.values, width=.6, colorup='red', colordown='blue')
 p1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 plt.plot(df.number, df['ema130'], color='c', label='EMA130')
 plt.legend(loc='best')
+
 p1 = plt.subplot(2, 1, 2)
 plt.grid(True)
 p1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
