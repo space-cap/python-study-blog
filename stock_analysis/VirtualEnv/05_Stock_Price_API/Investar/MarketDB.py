@@ -1,6 +1,9 @@
 import pandas as pd
 import pymysql
+import os
 from datetime import datetime
+from dotenv import load_dotenv
+
 
 class MarketDB:
     def __init__(self):
