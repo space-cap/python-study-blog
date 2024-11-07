@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import datetime
-from mpl_finance import candlestick_ohlc
+from mplfinance import candlestick_ohlc
 #from mplfinance.original_flavor import candlestick_ohlc
 import matplotlib.dates as mdates
 from Investar import Analyzer
@@ -25,8 +25,7 @@ plt.figure(figsize=(9, 7))
 p1 = plt.subplot(2, 1, 1)
 plt.title('Triple Screen Trading - First Screen (NCSOFT)')
 plt.grid(True)
-candlestick_ohlc(p1, ohlc.values, width=.6, colorup='red', 
-    colordown='blue')  # ⑦
+candlestick_ohlc(p1, ohlc.values, width=.6, colorup='red', colordown='blue')  # ⑦
 p1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 plt.plot(df.number, df['ema130'], color='c', label='EMA130')
 plt.legend(loc='best')
