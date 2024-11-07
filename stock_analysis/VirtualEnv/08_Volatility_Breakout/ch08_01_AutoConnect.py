@@ -20,7 +20,9 @@ os.system('wmic process where "name like \'%CpStart%\'" call terminate')
 os.system('wmic process where "name like \'%DibServer%\'" call terminate')
 time.sleep(5)        
 
-cmd_line = f"C:\CREON\STARTER\coStarter.exe /prj:cp /id:{CREON_USER} /pwd:{CREON_PWD} /pwdcert:{CREON_PWDCERT} /autostart"
+cmd_line = f"C:\hts\CREON\STARTER\coStarter.exe /prj:cp /id:{CREON_USER} /pwd:{CREON_PWD} /pwdcert:{CREON_PWDCERT} /autostart"
+print(cmd_line)
+
 app = application.Application()
 app.start(cmd_line)
 time.sleep(60)
