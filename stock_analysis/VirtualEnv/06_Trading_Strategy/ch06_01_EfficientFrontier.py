@@ -43,4 +43,10 @@ for i, s in enumerate(stocks):
 df = pd.DataFrame(portfolio) 
 df = df[['Returns', 'Risk'] + [s for s in stocks]] 
 
-print(df)
+# print(df)
+
+df.plot.scatter(x='Risk', y='Returns', figsize=(8, 6), grid=True)
+plt.title('Efficient Frontier') 
+plt.xlabel('Risk') 
+plt.ylabel('Expected Returns') 
+plt.show() 

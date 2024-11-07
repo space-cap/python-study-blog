@@ -90,6 +90,6 @@ class MarketDB:
             print(f"ValueError: Code({code}) doesn't exist.")
         sql = f"SELECT * FROM daily_price WHERE code = '{code}'"\
             f" and date >= '{start_date}' and date <= '{end_date}'"
-        df = pd.read_sql(sql, self.conn)
+        df = pd.read_sql(sql, self.engine)
         df.index = df['date']
         return df 
