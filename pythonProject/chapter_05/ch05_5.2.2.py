@@ -6,15 +6,30 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from datetime import datetime, timedelta
 
 
+import os
+from dotenv import load_dotenv
+
+# .env 파일 불러오기
+load_dotenv()
+
+# 환경 변수 가져오기
+# 업비트 API 키 설정
+api_key = os.getenv('UPBIT_API_KEY')
+api_secret = os.getenv('UPBIT_SECRET')
+
+# 업비트 거래소 객체 생성
+upbit = ccxt.upbit({
+    'apiKey': api_key,
+    'secret': api_secret,
+})
+
 # ccxt 라이브러리로 업비트 마켓 정보 가져오기
-upbit = ccxt.upbit()
 markets = upbit.load_markets()
 
 # 원화 마켓 코인 필터링
 krw_markets = [market for market in markets if market.startswith("KRW-")]
 
 print(krw_markets)
-
 
 # 현재 날짜와 1년 전 날짜 계산
 end_date = datetime.now()
