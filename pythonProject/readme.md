@@ -18,4 +18,5 @@ pip install tensorflow
 
 pip install scikit-learn
 
+pip install python-dotenv
 
