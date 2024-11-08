@@ -60,6 +60,19 @@ for market in krw_symbols:
     df['ma30'] = df['close'].rolling(window=30).mean()
     df['ma90'] = df['close'].rolling(window=90).mean()
 
+    # 정배열 조건 확인
+    last_row = df.iloc[-1]
+    if last_row['ma7'] > last_row['ma30'] > last_row['ma90']:
+
+        # 볼린저 밴드 계산
+        df['stddev'] = df['close'].rolling(window=20).std()
+        df['upper_band'] = df['ma30'] + (df['stddev'] * 2)
+        df['lower_band'] = df['ma30'] - (df['stddev'] * 2)
+
+        # 볼린저 밴드 조건 확인
+        if last_row['close'] < last_row['upper_band']:
+            selected_cryptos.append(market)
+
     print('종목:', market)
 
 
