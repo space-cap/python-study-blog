@@ -30,7 +30,7 @@ tickers = upbit.fetch_tickers()
 symbols = tickers.keys()
 krw_symbols = [x for x in symbols if x.endswith('KRW')]
 
-print(krw_symbols)
+# print(krw_symbols)
 
 # 현재 날짜와 1년 전 날짜 계산
 end_date = datetime.now()
@@ -38,13 +38,12 @@ start_date = end_date - timedelta(days=365)
 
 selected_cryptos = []
 
-# 각 코인에 대해 OHLCV 데이터 가져오기 및 조건 검토
-for market in krw_symbols:
-    ohlcv = upbit.fetch_ohlcv(market, timeframe='1d', since=int(start_date.timestamp() * 1000))
-    
-    # OHLCV 데이터를 DataFrame으로 변환
-    df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+ohlcv_data = [[], [], [], [], [], []]
 
-    print(df.head)
+if not ohlcv_data:  # 내부 리스트가 비어 있는 경우
+    print(f"Index 의 데이터가 비어 있습니다.")
+else:
+    print(f"Index 의 데이터: ")
+
+
 
