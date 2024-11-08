@@ -38,13 +38,29 @@ start_date = end_date - timedelta(days=365)
 
 selected_cryptos = []
 
-ohlcv_data = [[], [], [], [], [], []]
+selected_cryptos = []
+            
+# 각 코인에 대해 OHLCV 데이터 가져오기 및 조건 검토
+for market in krw_symbols:
+    ohlcv = upbit.fetch_ohlcv(market, timeframe='1d', since=int(start_date.timestamp() * 1000))
 
-# 모든 내부 리스트가 비어 있는지 확인
-if all(not data for data in ohlcv_data):
-    print("모든 데이터가 비어 있습니다.")
-else:
-    print("일부 데이터가 있습니다.")
+    # 모든 내부 리스트가 비어 있는지 확인
+    if all(not data for data in ohlcv):
+        print(f"{market} 모든 데이터가 비어 있습니다.")
+        continue
+    # else:
+    #     print(f"{market} 일부 데이터가 있습니다.")
+
+    # OHLCV 데이터를 DataFrame으로 변환
+    df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+    
+    # 이동평균선 계산
+    df['ma7'] = df['close'].rolling(window=7).mean()
+    df['ma30'] = df['close'].rolling(window=30).mean()
+    df['ma90'] = df['close'].rolling(window=90).mean()
+
+    print('종목:', market)
 
 
 
