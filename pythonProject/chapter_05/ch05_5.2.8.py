@@ -23,16 +23,5 @@ exchange = ccxt.upbit({
     'secret': api_secret,
 })
 
-# 캔들 데이터 조회 
-#ohlcv = exchange.fetch_ohlcv(symbol="BTC/KRW", timeframe='1m') # 1분봉
-ohlcv = exchange.fetch_ohlcv(symbol="BTC/KRW", timeframe='1d') # 일봉
 
-df = pd.DataFrame(ohlcv, columns=['datetime', 'open', 'high', 'low', 'close', 'volume'])
-pd_ts = pd.to_datetime(df['datetime'], utc=True, unit='ms')     # unix timestamp to pandas Timeestamp
-pd_ts = pd_ts.dt.tz_convert("Asia/Seoul")                       # convert timezone
-pd_ts = pd_ts.dt.tz_localize(None)
-df.set_index(pd_ts, inplace=True)
-df = df[['open', 'high', 'low', 'close', 'volume']]
-
-print(df)
 
