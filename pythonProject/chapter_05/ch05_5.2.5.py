@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 
 # 다음은 업비트 API를 사용하여 계정 정보를 가져오는 코드입니다.
+# https://dxdata.tistory.com/9
 
 # .env 파일 불러오기
 load_dotenv()
