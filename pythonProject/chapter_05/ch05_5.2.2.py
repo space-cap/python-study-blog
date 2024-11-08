@@ -36,5 +36,15 @@ print(krw_symbols)
 end_date = datetime.now()
 start_date = end_date - timedelta(days=365)
 
+selected_cryptos = []
 
+# 각 코인에 대해 OHLCV 데이터 가져오기 및 조건 검토
+for market in krw_symbols:
+    ohlcv = upbit.fetch_ohlcv(market, timeframe='1d', since=int(start_date.timestamp() * 1000))
+    
+    # OHLCV 데이터를 DataFrame으로 변환
+    df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+
+    print(df.head)
 
