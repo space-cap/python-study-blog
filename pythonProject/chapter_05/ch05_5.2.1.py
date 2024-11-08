@@ -5,6 +5,19 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from datetime import datetime, timedelta
 
+import os
+from dotenv import load_dotenv
+
+# .env 파일 불러오기
+load_dotenv()
+
+# 환경 변수 가져오기
+# 업비트 API 키 설정
+api_key = os.getenv('UPBIT_API_KEY')
+api_secret = os.getenv('UPBIT_SECRET')
+
+
+
 # UI 파일 로드
 class CoinSystem(QMainWindow):
     def __init__(self):
@@ -17,11 +30,19 @@ class CoinSystem(QMainWindow):
     def search_cryptos(self):
         try:
             # ccxt 라이브러리로 업비트 마켓 정보 가져오기
-            upbit = ccxt.upbit()
+            # 업비트 거래소 객체 생성
+            upbit = ccxt.upbit({
+                'apiKey': api_key,
+                'secret': api_secret,
+            })
             markets = upbit.load_markets()
             
-            # 원화 마켓 코인 필터링
-            krw_markets = [market for market in markets if market.startswith("KRW-")]
+           # ccxt 라이브러리로 업비트 마켓 정보 가져오기
+            tickers = upbit.fetch_tickers()
+
+            # 티커 목록에서 원화 마켓만 필터링
+            symbols = tickers.keys()
+            krw_symbols = [x for x in symbols if x.endswith('KRW')]
             
             # 현재 날짜와 1년 전 날짜 계산
             end_date = datetime.now()
@@ -30,7 +51,7 @@ class CoinSystem(QMainWindow):
             selected_cryptos = []
             
             # 각 코인에 대해 OHLCV 데이터 가져오기 및 조건 검토
-            for market in krw_markets:
+            for market in krw_symbols:
                 ohlcv = upbit.fetch_ohlcv(market, timeframe='1d', since=int(start_date.timestamp() * 1000))
                 
                 # OHLCV 데이터를 DataFrame으로 변환

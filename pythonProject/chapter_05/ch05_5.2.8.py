@@ -23,5 +23,10 @@ exchange = ccxt.upbit({
     'secret': api_secret,
 })
 
+# balance
+balance = exchange.fetch_balance()
+pprint.pprint(balance)
 
+krw_balance = balance['KRW']
+pprint.pprint(krw_balance)
 

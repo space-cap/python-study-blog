@@ -24,12 +24,13 @@ upbit = ccxt.upbit({
 })
 
 # ccxt 라이브러리로 업비트 마켓 정보 가져오기
-markets = upbit.load_markets()
+tickers = upbit.fetch_tickers()
 
-# 원화 마켓 코인 필터링
-krw_markets = [market for market in markets if market.startswith("KRW-")]
+# 티커 목록에서 원화 마켓만 필터링
+symbols = tickers.keys()
+krw_symbols = [x for x in symbols if x.endswith('KRW')]
 
-print(krw_markets)
+print(krw_symbols)
 
 # 현재 날짜와 1년 전 날짜 계산
 end_date = datetime.now()
