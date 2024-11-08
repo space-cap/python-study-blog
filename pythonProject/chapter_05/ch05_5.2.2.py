@@ -40,10 +40,13 @@ selected_cryptos = []
 
 ohlcv_data = [[], [], [], [], [], []]
 
-if not ohlcv_data:  # 내부 리스트가 비어 있는 경우
-    print(f"Index 의 데이터가 비어 있습니다.")
+# 모든 내부 리스트가 비어 있는지 확인
+if all(not data for data in ohlcv_data):
+    print("모든 데이터가 비어 있습니다.")
 else:
-    print(f"Index 의 데이터: ")
+    print("일부 데이터가 있습니다.")
+
+
 
 
 
