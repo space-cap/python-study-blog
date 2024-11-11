@@ -66,8 +66,14 @@ for market in krw_symbols:
 
         # 볼린저 밴드 계산
         df['stddev'] = df['close'].rolling(window=20).std()
-        df['upper_band'] = df['ma30'] + (df['stddev'] * 2)
-        df['lower_band'] = df['ma30'] - (df['stddev'] * 2)
+
+        # 볼린저 밴드 계산 (데이터가 충분한지 확인)
+        if df['ma30'].notna().all() and df['stddev'].notna().all():
+            df['upper_band'] = df['ma30'] + (df['stddev'] * 2)
+            df['lower_band'] = df['ma30'] - (df['stddev'] * 2)
+        else:
+            print(f"{market}에 대해 충분한 데이터가 없어 볼린저 밴드를 계산할 수 없습니다.")
+            continue  # 다음 코인으로 넘어감
 
         # 볼린저 밴드 조건 확인
         if last_row['close'] < last_row['upper_band']:
@@ -75,7 +81,13 @@ for market in krw_symbols:
 
     print('종목:', market)
 
-
+# 결과 출력
+if selected_cryptos:
+    print("조건에 맞는 암호화폐 리스트:")
+    for crypto in selected_cryptos:
+        print(crypto)
+else:
+    print("조건에 맞는 암호화폐가 없습니다.")
 
 
 
