@@ -1,6 +1,11 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 import time
+
+# chromedriver 경로 설정
+driver_path = "D:/chromedriver/chromedriver-130/chromedriver.exe"
+service = Service(executable_path=driver_path)
 
 # Selenium 옵션 설정
 options = webdriver.ChromeOptions()
@@ -8,11 +13,8 @@ options.add_argument("--headless")  # 브라우저 창을 띄우지 않음
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
-# chromedriver 경로 설정
-driver_path = "D:/chromedriver/chromedriver-130/chromedriver.exe"
-
 # Selenium WebDriver 초기화
-driver = webdriver.Chrome(executable_path=driver_path, options=options)
+driver = webdriver.Chrome(service=service, options=options)
 
 try:
     # 웹페이지 열기
