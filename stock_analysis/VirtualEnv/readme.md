@@ -32,3 +32,9 @@ pip install selenium
 파이썬 3.8.10 32비트 설치
 https://www.python.org/downloads/release/python-3810/
 Windows installer (32-bit) 다운 받아서 설치
+
+챕터 09 를 하기 위해서는 64비트를 설치를 해야 한다.
+C:\Python\Python38\python.exe -m venv Py3810_64
+
+pip install tensorflow
+pip install matplotlib
