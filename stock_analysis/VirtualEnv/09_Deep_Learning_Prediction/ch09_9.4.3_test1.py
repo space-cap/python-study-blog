@@ -29,4 +29,9 @@ dfy = dfx[['close']]
 x = dfx.values.tolist()
 y = dfy.values.tolist()
 
+print(dfx.info())
+print(dfy.info())
+
+print(x[-6:])
+print(y[-6:])
 
