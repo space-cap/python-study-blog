@@ -33,6 +33,12 @@ try:
     table = bs.find_all("table", class_="type_1 type_etf")
     df = pd.read_html(str(table), header=0)[0]
 
+    # print(df)
+
+    # 불필요한 열과 행을 삭제하고 인덱스를 재설정해서 출력
+    df = df.drop(columns=['Unnamed: 9'])
+    df = df.dropna()
+    df.index = range(1, len(df)+1)
     print(df)
 
 finally:
