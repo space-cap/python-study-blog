@@ -82,6 +82,12 @@ plt.show()
 # print("Tomorrow's SEC price :", df.close[-1] * pred_y[-1] / dfy.close[-1], 'KRW')
 # print("Tomorrow's SEC price :", df.close.iloc[-1] * pred_y[-1] / dfy.close.iloc[-1], 'KRW')
 last_close = dfy.close.iloc[-1]
+
+
+print(last_close)
+print(df.close.iloc[-1])
+print(pred_y[-1])
+
 if last_close != 0:
     sec_price = df.close.iloc[-1] * pred_y[-1] / last_close
 else:
