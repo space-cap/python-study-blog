@@ -3,8 +3,8 @@ import backtrader as bt
 import yfinance as yf
 import pandas as pd
 import numpy as np
-from tensorflow import Sequential
-from tensorflow import Dense, LSTM, Dropout
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, LSTM, Dropout
 
 
 # yfinance를 사용하여 데이터 다운로드
