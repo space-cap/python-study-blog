@@ -9,7 +9,7 @@ from tensorflow.keras.layers import Dense, LSTM, Dropout
 
 
 # yfinance를 사용하여 데이터 다운로드
-df = yf.download("005930.KS", start="2023-01-01", end="2024-11-12")
+df = yf.download("005930.KS", start="2023-01-01", end="2024-11-11")
 df = df.reset_index()  # 인덱스를 초기화하여 'Date' 열을 열로 변환
 df['Date'] = pd.to_datetime(df['Date'],format='%Y-%m-%d %H:%M:%S')
 
@@ -80,4 +80,13 @@ plt.show()
 
 # raw_df.close[-1] : dfy.close[-1] = x : pred_y[-1]
 # print("Tomorrow's SEC price :", df.close[-1] * pred_y[-1] / dfy.close[-1], 'KRW')
-print("Tomorrow's SEC price :", df.close.iloc[-1] * pred_y[-1] / dfy.close.iloc[-1], 'KRW')
+# print("Tomorrow's SEC price :", df.close.iloc[-1] * pred_y[-1] / dfy.close.iloc[-1], 'KRW')
+last_close = dfy.close.iloc[-1]
+if last_close != 0:
+    sec_price = df.close.iloc[-1] * pred_y[-1] / last_close
+else:
+    sec_price = float('nan')  # 0으로 나누는 경우 NaN 값을 사용하거나 다른 기본값을 설정
+
+print("Tomorrow's SEC price:", sec_price, 'KRW')
+
+
