@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 import time
+import pandas as pd
 
 # chromedriver 경로 설정
 driver_path = "D:/chromedriver/chromedriver-130/chromedriver.exe"
@@ -28,10 +29,11 @@ try:
     html = driver.page_source
 
     # BeautifulSoup을 이용해 HTML 파싱
-    soup = BeautifulSoup(html, "html.parser")
+    bs = BeautifulSoup(html, "lxml")
+    table = bs.find_all("table", class_="type_1 type_etf")
+    df = pd.read_html(str(table), header=0)[0]
 
-    # 예시: 페이지 제목 출력
-    print(soup.title.text)
+    print(df)
 
 finally:
     # 드라이버 종료
