@@ -38,3 +38,7 @@ C:\Python\Python38\python.exe -m venv Py3810_64
 
 pip install tensorflow
 pip install matplotlib
+pip install scipy
+pip install pandas
+pip install yfinance
+pip install backtrader
