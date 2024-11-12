@@ -42,6 +42,13 @@ for i in range(len(y) - window_size):
     data_y.append(_y)
 print(_x, "->", _y)
 
+# 훈련용 데이터셋과 테스트용 데이터셋 분리
+train_size = int(len(data_y) * 0.7)
+train_x = np.array(data_x[0 : train_size])
+train_y = np.array(data_y[0 : train_size])
 
+test_size = len(data_y) - train_size
+test_x = np.array(data_x[train_size : len(data_x)])
+test_y = np.array(data_y[train_size : len(data_y)])
 
 
