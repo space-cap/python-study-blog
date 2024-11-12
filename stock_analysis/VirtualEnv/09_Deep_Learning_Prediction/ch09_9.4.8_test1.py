@@ -3,12 +3,13 @@ import backtrader as bt
 import yfinance as yf
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM, Dropout
 
 
 # yfinance를 사용하여 데이터 다운로드
-df = yf.download("005930.KS", start="2023-01-01", end="2024-11-05")
+df = yf.download("005930.KS", start="2023-01-01", end="2024-11-12")
 df = df.reset_index()  # 인덱스를 초기화하여 'Date' 열을 열로 변환
 df['Date'] = pd.to_datetime(df['Date'],format='%Y-%m-%d %H:%M:%S')
 
@@ -66,3 +67,14 @@ model.summary()
 model.compile(optimizer='adam', loss='mean_squared_error')
 model.fit(train_x, train_y, epochs=60, batch_size=30)
 pred_y = model.predict(test_x)
+
+# Visualising the results
+plt.figure()
+plt.plot(test_y, color='red', label='real SEC stock price')
+plt.plot(pred_y, color='blue', label='predicted SEC stock price')
+plt.title('SEC stock price prediction')
+plt.xlabel('time')
+plt.ylabel('stock price')
+plt.legend()
+plt.show()
+
