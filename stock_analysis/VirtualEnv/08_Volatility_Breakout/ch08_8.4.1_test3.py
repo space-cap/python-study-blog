@@ -30,6 +30,9 @@ try:
 
     # BeautifulSoup을 이용해 HTML 파싱
     bs = BeautifulSoup(html, "lxml")
+    # 드라이버 종료
+    driver.quit()
+
     table = bs.find_all("table", class_="type_1 type_etf")
     df = pd.read_html(str(table), header=0)[0]
 
@@ -39,8 +42,16 @@ try:
     df = df.drop(columns=['Unnamed: 9'])
     df = df.dropna()
     df.index = range(1, len(df)+1)
-    print(df)
+    # print(df)
+
+    # 링크 주소에 포함된 종목코드를 추출하여 전체 종목코드와 종목명 출력
+    etf_td = bs.find_all("td", class_="ctg")
+    etfs = {}
+    for td in etf_td:
+        s = str(td.a["href"]).split('=')
+        code = s[-1]
+        etfs[td.a.text] = code
+    print("etfs :", etfs)
 
 finally:
-    # 드라이버 종료
-    driver.quit()
+    print("finally")
