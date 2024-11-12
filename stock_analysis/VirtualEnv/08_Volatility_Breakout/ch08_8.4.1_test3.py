@@ -44,6 +44,9 @@ try:
     df.index = range(1, len(df)+1)
     # print(df)
 
+    # 거래대금(백만) 열을 기준으로 내림차순 정렬
+    # df = df.sort_values(by=['거래대금(백만)'], ascending=False)
+
     # 링크 주소에 포함된 종목코드를 추출하여 전체 종목코드와 종목명 출력
     etf_td = bs.find_all("td", class_="ctg")
     etfs = {}
