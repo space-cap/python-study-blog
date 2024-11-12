@@ -3,6 +3,9 @@ import backtrader as bt
 import yfinance as yf
 import pandas as pd
 import numpy as np
+from tensorflow import Sequential
+from tensorflow import Dense, LSTM, Dropout
+
 
 # yfinance를 사용하여 데이터 다운로드
 df = yf.download("005930.KS", start="2023-01-01", end="2024-11-05")
@@ -51,4 +54,15 @@ test_size = len(data_y) - train_size
 test_x = np.array(data_x[train_size : len(data_x)])
 test_y = np.array(data_y[train_size : len(data_y)])
 
+# 모델 생성
+model = Sequential()
+model.add(LSTM(units=10, activation='relu', return_sequences=True, input_shape=(window_size, data_size)))
+model.add(Dropout(0.1))
+model.add(LSTM(units=10, activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(units=1))
+model.summary()
 
+model.compile(optimizer='adam', loss='mean_squared_error')
+model.fit(train_x, train_y, epochs=60, batch_size=30)
+pred_y = model.predict(test_x)
