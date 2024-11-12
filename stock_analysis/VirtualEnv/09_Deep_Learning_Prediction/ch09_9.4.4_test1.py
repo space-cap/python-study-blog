@@ -30,6 +30,18 @@ x = dfx.values.tolist()
 y = dfy.values.tolist()
 
 # 데이터셋 준비하기
+window_size = 10 
+data_size = 5
+
+data_x = []
+data_y = []
+for i in range(len(y) - window_size):
+    _x = x[i : i + window_size] # 다음 날 종가(i+windows_size)는 포함되지 않음
+    _y = y[i + window_size]     # 다음 날 종가
+    data_x.append(_x)
+    data_y.append(_y)
+print(_x, "->", _y)
+
 
 
 
