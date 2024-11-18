@@ -2,6 +2,7 @@ from django.http import HttpResponse  # 삭제
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Question, Answer
+from .forms import QuestionForm
 
 
 def index(request):
@@ -22,4 +23,10 @@ def answer_create(request, question_id):
     answer = Answer(question=question, content=request.POST.get('content'), create_date=timezone.now())
     answer.save()
     return redirect('pybo:detail', question_id=question.id)
+
+
+def question_create(request):
+    form = QuestionForm()
+    return render(request, 'pybo/question_form.html', {'form': form})
+
 
