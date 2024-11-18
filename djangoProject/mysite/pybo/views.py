@@ -28,10 +28,10 @@ def answer_create(request, question_id):
 def question_create(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
-        if form.is_valid():
-            question = form.save(commit=False)
-            question.create_date = timezone.now()
-            question.save()
+        if form.is_valid(): # 폼이 유요한지 검사
+            question = form.save(commit=False) # 임시 저장하여 question 객체를 반환
+            question.create_date = timezone.now() # 실제 저장을 위해 시간 추가
+            question.save() # 데이터베이스에 저장
             return redirect('pybo:index')
     else:
         form = QuestionForm()
