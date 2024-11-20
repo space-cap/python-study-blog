@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.db.models import F
 
 
 def index(request):
@@ -30,6 +31,10 @@ def index(request):
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    
+    # 조회 수 증가
+    Question.objects.filter(id=question_id).update(views=F('views') + 1)
+
     context = {'question': question}
     return render(request, 'pybo/question_detail.html', context)
 

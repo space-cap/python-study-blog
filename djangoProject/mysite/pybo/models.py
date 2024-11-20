@@ -9,6 +9,7 @@ class Question(models.Model):
     create_date = models.DateTimeField()
     modify_date = models.DateTimeField(null=True, blank=True)
     voter = models.ManyToManyField(User, related_name='voter_question')  # 추천인 추가
+    views = models.PositiveIntegerField(default=0)  # 조회 수 필드 추가
 
     def __str__(self):
         return self.subject
@@ -21,5 +22,5 @@ class Answer(models.Model):
     create_date = models.DateTimeField()
     modify_date = models.DateTimeField(null=True, blank=True)
     voter = models.ManyToManyField(User, related_name='voter_answer')
-
+    views = models.PositiveIntegerField(default=0)  # 조회 수 필드 추가
 
