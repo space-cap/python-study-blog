@@ -48,7 +48,7 @@
                 {% for comment in question.comment_set.all %}
                     <li>
                         <strong>{{ comment.author.username }}</strong>:
-                        {{ comment.content|linebreaks }}
+                        {{ comment.content }}
                         <small>{{ comment.create_date }}</small>
                     </li>
                 {% endfor %}
