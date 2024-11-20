@@ -29,6 +29,10 @@
                 </div>
             </div>
             <div class="my-3">
+                <a href="javascript:void(0)" 
+                        class="comment btn btn-sm btn-outline-secondary"> 댓글
+                    <span class="badge rounded-pill bg-success">{{question.comment_set.all.count}}</span>
+                </a>
                 <a href="javascript:void(0)" data-uri="{% url 'pybo:question_vote' question.id  %}"
                         class="recommend btn btn-sm btn-outline-secondary"> 추천
                     <span class="badge rounded-pill bg-success">{{question.voter.count}}</span>
@@ -40,12 +44,11 @@
                     data-uri="{% url 'pybo:question_delete' question.id  %}">삭제</a>
                 {% endif %}
             </div>
-            <h2>댓글</h2>
             <ul>
                 {% for comment in question.comment_set.all %}
                     <li>
                         <strong>{{ comment.author.username }}</strong>:
-                        {{ comment.content }}
+                        {{ comment.content|linebreaks }}
                         <small>{{ comment.create_date }}</small>
                     </li>
                 {% endfor %}
