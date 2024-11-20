@@ -40,6 +40,22 @@
                     data-uri="{% url 'pybo:question_delete' question.id  %}">삭제</a>
                 {% endif %}
             </div>
+            <h2>댓글</h2>
+            <ul>
+                {% for comment in question.comment_set.all %}
+                    <li>
+                        <strong>{{ comment.author.username }}</strong>:
+                        {{ comment.content }}
+                        <small>{{ comment.create_date }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+            <form method="post" action="{% url 'pybo:comment_add' question.id %}">
+                {% csrf_token %}
+                <textarea name="content" placeholder="댓글을 작성하세요..." required></textarea>
+                <button type="submit">댓글 작성</button>
+            </form>
+            
         </div>
     </div>
     <!-- 답변 -->
