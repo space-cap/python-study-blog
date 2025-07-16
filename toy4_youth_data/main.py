@@ -573,7 +573,7 @@ def main():
         params = {
             'apiKeyNm': 'testKey',
             'apiSn': '86',
-            'pageNum': 1,
+            'pageNum': 7,
             'pageSize': 100  # 한 번에 가져올 데이터 수
         }
 
@@ -596,6 +596,9 @@ def main():
                 logger.info("더 이상 가져올 데이터가 없습니다.")
                 break
             
+            # logger.info(f"api_data: {api_data}")
+
+
             # 데이터베이스에 저장
             if db_manager.insert_policy_data(api_data):
                 current_count = len(api_data['result']['youthPolicyList'])
@@ -617,7 +620,10 @@ def main():
             page_num += 1
             
             # API 호출 간격 (서버 부하 방지)
-            time.sleep(3.5)
+            time.sleep(10)
+
+            # 한번만 수행.
+            # break
         
         # 통계 정보 출력
         stats = db_manager.get_policy_statistics()
