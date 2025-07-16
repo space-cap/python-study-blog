@@ -2,6 +2,7 @@ import json
 import os
 import argparse
 import logging
+import time
 from datetime import datetime
 from typing import Dict, Any, List
 
@@ -189,8 +190,12 @@ class YouthPolicyProcessor:
                     
                     if self.index_file_data(file_path):
                         success_count += 1
+                        logger.error(f"파일 인덱싱 성공: {filename}")
                     else:
                         logger.error(f"파일 인덱싱 실패: {filename}")
+
+                # 호출 간격 (부하 방지)
+                time.sleep(3)
             
             logger.info(f"디렉토리 파일 인덱싱 완료: {success_count}/{total_count}")
             return success_count == total_count
