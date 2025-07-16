@@ -1,0 +1,187 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "analyzer": {
+        "korean_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "trim"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "plcyNo": {
+        "type": "keyword"
+      },
+      "plcyNm": {
+        "type": "text",
+        "analyzer": "korean_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "plcyKywdNm": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "plcyExplnCn": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "lclsfNm": {
+        "type": "keyword"
+      },
+      "mclsfNm": {
+        "type": "keyword"
+      },
+      "plcySprtCn": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "sprvsnInstCd": {
+        "type": "keyword"
+      },
+      "sprvsnInstCdNm": {
+        "type": "keyword"
+      },
+      "sprvsnInstPicNm": {
+        "type": "keyword"
+      },
+      "operInstCd": {
+        "type": "keyword"
+      },
+      "operInstCdNm": {
+        "type": "keyword"
+      },
+      "operInstPicNm": {
+        "type": "keyword"
+      },
+      "sprtSclLmtYn": {
+        "type": "keyword"
+      },
+      "sprtSclCnt": {
+        "type": "integer"
+      },
+      "sprtTrgtMinAge": {
+        "type": "integer"
+      },
+      "sprtTrgtMaxAge": {
+        "type": "integer"
+      },
+      "sprtTrgtAgeLmtYn": {
+        "type": "keyword"
+      },
+      "earnMinAmt": {
+        "type": "long"
+      },
+      "earnMaxAmt": {
+        "type": "long"
+      },
+      "earnEtcCn": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "bizPrdBgngYmd": {
+        "type": "date",
+        "format": "yyyyMMdd||yyyy-MM-dd||strict_date_optional_time"
+      },
+      "bizPrdEndYmd": {
+        "type": "date",
+        "format": "yyyyMMdd||yyyy-MM-dd||strict_date_optional_time"
+      },
+      "aplyYmd": {
+        "type": "text"
+      },
+      "frstRegDt": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time"
+      },
+      "lastMdfcnDt": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time"
+      },
+      "zipCd": {
+        "type": "keyword"
+      },
+      "zipCodes": {
+        "type": "keyword"
+      },
+      "plcyMajorCd": {
+        "type": "keyword"
+      },
+      "majorCodes": {
+        "type": "keyword"
+      },
+      "jobCd": {
+        "type": "keyword"
+      },
+      "jobCodes": {
+        "type": "keyword"
+      },
+      "schoolCd": {
+        "type": "keyword"
+      },
+      "schoolCodes": {
+        "type": "keyword"
+      },
+      "inqCnt": {
+        "type": "integer"
+      },
+      "rgtrInstCd": {
+        "type": "keyword"
+      },
+      "rgtrInstCdNm": {
+        "type": "keyword"
+      },
+      "rgtrUpInstCd": {
+        "type": "keyword"
+      },
+      "rgtrUpInstCdNm": {
+        "type": "keyword"
+      },
+      "rgtrHghrkInstCd": {
+        "type": "keyword"
+      },
+      "rgtrHghrkInstCdNm": {
+        "type": "keyword"
+      },
+      "aplyUrlAddr": {
+        "type": "keyword"
+      },
+      "refUrlAddr1": {
+        "type": "keyword"
+      },
+      "refUrlAddr2": {
+        "type": "keyword"
+      },
+      "plcyAplyMthdCn": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "sbmsnDcmntCn": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "etcMttrCn": {
+        "type": "text",
+        "analyzer": "korean_analyzer"
+      },
+      "indexed_at": {
+        "type": "date"
+      },
+      "data_source": {
+        "type": "keyword"
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import logging
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 from urllib.parse import urlencode
+from config import Config
 
 # 로깅 설정
 logging.basicConfig(
@@ -562,10 +563,16 @@ def main():
         'pageSize': 100  # 한 페이지당 가져올 데이터 수
     }
     
+    api_url = Config.API_CONFIG['base_url']
+    base_params['apiKeyNm'] = Config.API_CONFIG['api_key']
+
+
     try:
         # 실행 모드 선택
-        mode = input("실행 모드를 선택하세요 (1: 모든 페이지, 2: 단일 페이지, 3: 파일 목록 조회): ").strip()
+        # mode = input("실행 모드를 선택하세요 (1: 모든 페이지, 2: 단일 페이지, 3: 파일 목록 조회): ").strip()
         
+        mode = '1'
+
         if mode == '1':
             # 모든 페이지 수집
             logger.info("모든 페이지 데이터 수집 모드")
@@ -578,6 +585,9 @@ def main():
             delay_input = input("요청 간 지연 시간 (초, 기본값: 0.5): ").strip()
             delay = float(delay_input) if delay_input else 0.5
             
+            # 10초로 강제 적용
+            delay = 10
+
             # 데이터 수집 실행
             success = file_manager.collect_all_pages(
                 api_url=api_url,
