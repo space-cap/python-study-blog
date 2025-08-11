@@ -573,7 +573,7 @@ def main():
         params = {
             'apiKeyNm': 'testKey',
             'apiSn': '86',
-            'pageNum': 7,
+            'pageNum': 1,
             'pageSize': 100  # 한 번에 가져올 데이터 수
         }
 
