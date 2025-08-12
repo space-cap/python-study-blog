@@ -23,6 +23,7 @@ class SaraminSpider(scrapy.Spider):
         name (str): 스파이더 이름
         allowed_domains (list): 허용된 도메인 목록
         custom_settings (dict): 스파이더 전용 설정
+        target_url (str): 사용자가 입력한 크롤링 대상 URL
     """
     name = 'saramin'
     allowed_domains = ['saramin.co.kr']
@@ -34,33 +35,53 @@ class SaraminSpider(scrapy.Spider):
         'CONCURRENT_REQUESTS_PER_DOMAIN': 1,      # 도메인별 동시 요청 수 제한
     }
     
+    def __init__(self, target_url=None, *args, **kwargs):
+        """스파이더 초기화
+        
+        Args:
+            target_url (str, optional): 사용자가 입력한 크롤링 대상 URL
+        """
+        super(SaraminSpider, self).__init__(*args, **kwargs)
+        self.target_url = target_url
+    
     def start_requests(self):
         """초기 요청 URL들을 생성합니다.
         
-        대상 URL들을 두 종류로 분류하여 처리합니다:
-        1. 직접 상세 페이지
-        2. 검색 결과 페이지 (개발자 관련 키워드)
+        사용자가 입력한 URL이 있으면 해당 URL을 우선적으로 사용하고,
+        없으면 기본 URL들을 사용합니다.
         
         Yields:
             scrapy.Request: 각 URL에 대한 Scrapy 요청 객체
         """
-        # 크롤링 대상 URL 목록
-        urls = [
-            # 직접 상세 페이지 URL
-            'https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=51507890&view_type=search',
-            # 개발자 관련 검색 URL들
-            'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=개발자',
-            'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=프로그래머',
-            'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=백엔드',
-            'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=프론트엔드',
-        ]
-        
-        # 첫 번째 URL은 상세 페이지이므로 직접 parse_job_detail로 전달
-        yield scrapy.Request(url=urls[0], callback=self.parse_job_detail)
-        
-        # 나머지 URL들은 검색 결과 페이지이므로 parse로 전달
-        for url in urls[1:]:
-            yield scrapy.Request(url=url, callback=self.parse)
+        # 사용자가 입력한 URL이 있는 경우 해당 URL 사용
+        if self.target_url:
+            self.logger.info(f"사용자 입력 URL로 크롤링 시작: {self.target_url}")
+            # URL 종류에 따라 적절한 콜백 함수 선택
+            if '/jobs/relay/view' in self.target_url or 'rec_idx=' in self.target_url:
+                # 채용공고 상세 페이지
+                yield scrapy.Request(url=self.target_url, callback=self.parse_job_detail)
+            else:
+                # 검색 결과 페이지
+                yield scrapy.Request(url=self.target_url, callback=self.parse)
+        else:
+            # 기본 크롤링 대상 URL 목록
+            urls = [
+                # 직접 상세 페이지 URL
+                'https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=51507890&view_type=search',
+                # 개발자 관련 검색 URL들
+                'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=개발자',
+                'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=프로그래머',
+                'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=백엔드',
+                'https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=프론트엔드',
+            ]
+            
+            self.logger.info("기본 URL들로 크롤링 시작")
+            # 첫 번째 URL은 상세 페이지이므로 직접 parse_job_detail로 전달
+            yield scrapy.Request(url=urls[0], callback=self.parse_job_detail)
+            
+            # 나머지 URL들은 검색 결과 페이지이므로 parse로 전달
+            for url in urls[1:]:
+                yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         """검색 결과 페이지에서 개별 채용공고 링크를 추출합니다.

@@ -96,7 +96,7 @@ async def crawl_jobs(request: CrawlRequest, background_tasks: BackgroundTasks):
             try-catch로 감싸서 처리합니다.
             """
             try:
-                run_spider()
+                run_spider(url=request.url)
             except Exception as e:
                 print(f"크롤링 실행 중 오류: {e}")
         
