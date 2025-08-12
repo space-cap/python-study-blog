@@ -12,14 +12,14 @@ class DatabasePipeline:
         try:
             job_posting = JobPosting(
                 company_name=item.get('company_name'),
-                job_title=item.get('job_title'),
+                title=item.get('job_title'),
                 start_date=item.get('start_date'),
                 end_date=item.get('end_date'),
                 applicant_count=item.get('applicant_count', 0),
                 requirements=item.get('requirements'),
                 preferred_qualifications=item.get('preferred_qualifications'),
                 location=item.get('location'),
-                source_url=item.get('source_url')
+                url=item.get('source_url')
             )
             session.add(job_posting)
             session.commit()

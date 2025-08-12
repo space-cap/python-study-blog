@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Job Tracker - 채용공고 크롤링{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-3">
+                <i class="fas fa-briefcase"></i> Job Tracker
+            </h1>
+            <p class="lead text-muted">
+                사람인 채용공고를 쉽고 빠르게 수집하고 관리하세요
+            </p>
+        </div>
+
+        <!-- URL 입력 폼 -->
+        <div class="url-form">
+            <h3 class="text-center mb-4">
+                <i class="fas fa-link"></i> 채용공고 URL 입력
+            </h3>
+            <form id="url-form" class="row g-3">
+                <div class="col-md-9">
+                    <label for="url-input" class="form-label">사람인 채용공고 URL</label>
+                    <input 
+                        type="url" 
+                        class="form-control" 
+                        id="url-input" 
+                        placeholder="https://www.saramin.co.kr/zf_user/search/recruit?..."
+                        required
+                    >
+                    <div class="form-text text-light">
+                        사람인 검색 결과 페이지의 URL을 입력해주세요
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-light btn-lg w-100" id="submit-btn">
+                        <i class="fas fa-play"></i> 크롤링 시작
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 기능 소개 -->
+        <div class="row mt-5">
+            <div class="col-md-4 text-center mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">자동 크롤링</h5>
+                        <p class="card-text">사람인 채용공고를 자동으로 수집하여 데이터베이스에 저장합니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-list fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">통합 관리</h5>
+                        <p class="card-text">수집된 채용공고를 한 곳에서 쉽게 조회하고 관리할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-api fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">RESTful API</h5>
+                        <p class="card-text">REST API를 통해 외부 애플리케이션과 쉽게 연동할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 빠른 액세스 -->
+        <div class="text-center mt-5">
+            <h4 class="mb-3">빠른 액세스</h4>
+            <div class="d-grid gap-2 d-md-block">
+                <a href="/jobs" class="btn btn-outline-primary btn-lg me-md-2">
+                    <i class="fas fa-list"></i> 채용공고 목록 보기
+                </a>
+                <a href="/api/docs" class="btn btn-outline-secondary btn-lg">
+                    <i class="fas fa-book"></i> API 문서
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 사용법 안내 -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-question-circle"></i> 사용법</h5>
+            </div>
+            <div class="card-body">
+                <ol class="mb-0">
+                    <li class="mb-2">
+                        <strong>사람인 웹사이트 접속:</strong> 
+                        <a href="https://www.saramin.co.kr" target="_blank" class="text-decoration-none">
+                            www.saramin.co.kr
+                        </a>에서 원하는 조건으로 채용공고를 검색합니다.
+                    </li>
+                    <li class="mb-2">
+                        <strong>URL 복사:</strong> 
+                        검색 결과 페이지의 URL을 복사합니다.
+                    </li>
+                    <li class="mb-2">
+                        <strong>URL 입력:</strong> 
+                        위 입력 폼에 복사한 URL을 붙여넣고 "크롤링 시작" 버튼을 클릭합니다.
+                    </li>
+                    <li class="mb-0">
+                        <strong>결과 확인:</strong> 
+                        크롤링이 완료되면 "채용공고 목록 보기"에서 수집된 데이터를 확인할 수 있습니다.
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

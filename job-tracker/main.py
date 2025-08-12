@@ -12,7 +12,10 @@ Example:
     $ uvicorn main:app --host 0.0.0.0 --port 8000
 """
 
-from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks
+from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import List
 import uvicorn
@@ -33,18 +36,39 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# 정적 파일 및 템플릿 설정
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
 # 데이터베이스 테이블 생성
 Base.metadata.create_all(bind=engine)
 
-@app.get("/")
-async def root():
-    """루트 엔드포인트.
+# 웹 인터페이스 라우트
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    """메인 페이지 - URL 입력 폼."""
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/jobs", response_class=HTMLResponse)
+async def jobs_page(request: Request, skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
+    """채용공고 목록 페이지."""
+    jobs = get_job_postings(db, skip=skip, limit=limit)
+    total_jobs = len(get_job_postings(db, skip=0, limit=1000))  # 전체 개수 확인
     
-    API 서비스 상태를 확인하고 환영 메시지를 반환합니다.
-    
-    Returns:
-        dict: 환영 메시지가 포함된 딕셔너리
-    """
+    return templates.TemplateResponse("jobs.html", {
+        "request": request,
+        "jobs": jobs,
+        "total_jobs": total_jobs,
+        "current_page": skip // limit + 1,
+        "total_pages": (total_jobs + limit - 1) // limit,
+        "skip": skip,
+        "limit": limit
+    })
+
+# API 엔드포인트
+@app.get("/api/status")
+async def api_status():
+    """API 서비스 상태를 확인하고 환영 메시지를 반환합니다."""
     return {"message": "Job Tracker API에 오신 것을 환영합니다!"}
 
 @app.post("/api/jobs/crawl", response_model=CrawlResponse)
