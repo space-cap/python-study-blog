@@ -15,12 +15,21 @@ def run_spider():
             
             runner = CrawlerRunner(settings)
             deferred = runner.crawl(SaraminSpider)
-            deferred.addBoth(lambda _: reactor.stop())
-            reactor.run(installSignalHandlers=False)
+            
+            # 리액터가 실행 중이 아닐 때만 시작
+            if not reactor.running:
+                deferred.addBoth(lambda _: reactor.stop())
+                reactor.run(installSignalHandlers=False)
+            else:
+                print("크롤링이 백그라운드에서 실행 중입니다.")
+                
         except Exception as e:
             print(f"크롤링 실행 중 오류: {e}")
+            import traceback
+            traceback.print_exc()
     
     # 별도 스레드에서 크롤링 실행
     spider_thread = threading.Thread(target=_run_spider)
     spider_thread.daemon = True
     spider_thread.start()
+    spider_thread.join(timeout=30)  # 최대 30초 대기

@@ -161,3 +161,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 /toy4_youth_data/youth_policy_data
+job-tracker/job_tracker.db
