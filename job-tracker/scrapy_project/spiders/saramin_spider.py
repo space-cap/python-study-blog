@@ -149,6 +149,7 @@ class SaraminSpider(scrapy.Spider):
         
         if not job_title:
             job_title = (
+                response.css('.tit_job::text').get() or
                 response.css('.job_tit .job_title::text').get() or
                 response.css('meta[property="og:title"]::attr(content)').get()
             )
